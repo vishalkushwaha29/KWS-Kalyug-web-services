@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidya Learn — Education Platform Demo</title>
+    <meta name="description" content="Demo education platform by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root { --ink: #101828; --sub: #667085; --line: #E4E7EC; --bg: #F9FAFB; --brand: #4338CA; --brand-soft: #EEF0FF; --ok: #12B76A; --warn: #F79009; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 22px; border-radius: 9px; font-weight: 700; font-size: 0.88rem; border: 1px solid transparent; cursor: pointer; transition: .2s; font-family: inherit; }
+        .btn-p { background: var(--brand); color: #fff; } .btn-p:hover { background: #372FB0; }
+        .btn-o { border-color: var(--line); background: #fff; color: var(--ink); } .btn-o:hover { border-color: var(--brand); color: var(--brand); }
+        .btn-sm { padding: 8px 16px; font-size: 0.82rem; }
+
+        header { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 60; }
+        header .wrap { display: flex; align-items: center; gap: 22px; height: 70px; }
+        .logo { font-weight: 800; font-size: 1.16rem; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--brand); }
+        nav { display: flex; gap: 22px; font-size: 0.9rem; color: var(--sub); font-weight: 600; }
+        nav a:hover { color: var(--brand); }
+        .who { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+        .who .av { width: 34px; height: 34px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 0.8rem; font-weight: 700; }
+        .burger { display: none; background: none; border: 0; font-size: 1.15rem; cursor: pointer; }
+
+        .hero { background: #fff; border-bottom: 1px solid var(--line); padding: 46px 0; }
+        .hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; }
+        .hero h1 { font-size: 2.5rem; line-height: 1.15; letter-spacing: -1px; }
+        .hero p { color: var(--sub); margin: 12px 0 22px; max-width: 460px; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-mini { display: flex; gap: 26px; margin-top: 26px; font-size: 0.84rem; color: var(--sub); }
+        .hero-mini b { display: block; font-size: 1.3rem; color: var(--ink); }
+
+        /* Continue-learning card */
+        .resume { background: var(--brand-soft); border: 1px solid #D8DBFF; border-radius: 16px; padding: 22px; }
+        .resume .lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--brand); font-weight: 800; }
+        .resume h3 { font-size: 1.1rem; margin: 8px 0 4px; }
+        .resume .les { color: var(--sub); font-size: 0.86rem; }
+        .prog { height: 7px; background: #fff; border-radius: 8px; overflow: hidden; margin: 14px 0 8px; }
+        .prog i { display: block; height: 100%; background: var(--brand); border-radius: 8px; transition: width .5s; }
+        .prog-txt { font-size: 0.78rem; color: var(--sub); display: flex; justify-content: space-between; }
+
+        section { padding: 52px 0; }
+        .shead { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 24px; flex-wrap: wrap; }
+        .shead h2 { font-size: 1.7rem; letter-spacing: -.5px; }
+        .shead p { color: var(--sub); font-size: 0.9rem; }
+        .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+        .tabs button { border: 1px solid var(--line); background: #fff; border-radius: 30px; padding: 7px 16px; font-size: 0.84rem; color: var(--sub); font-weight: 600; cursor: pointer; transition: .2s; font-family: inherit; }
+        .tabs button.on, .tabs button:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+
+        .courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
+        .course { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: .24s; }
+        .course:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(16,24,40,.08); }
+        .course .top { height: 122px; display: grid; place-items: center; color: #fff; font-size: 2.2rem; position: relative; }
+        .course .lvl { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,.94); color: var(--ink); font-size: 0.68rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
+        .course .body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+        .course h3 { font-size: 1.02rem; margin-bottom: 4px; }
+        .course .by { font-size: 0.82rem; color: var(--sub); }
+        .course .facts { display: flex; gap: 14px; font-size: 0.78rem; color: var(--sub); margin: 12px 0; }
+        .course .facts i { color: var(--brand); margin-right: 4px; }
+        .rate { font-size: 0.8rem; color: #E0A800; }
+        .rate span { color: var(--sub); }
+        .course .foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
+        .course .cost { font-weight: 800; font-size: 1.05rem; }
+        .course .cost s { font-weight: 400; font-size: 0.82rem; color: var(--sub); margin-left: 5px; }
+        .enrolled { color: var(--ok); font-weight: 700; font-size: 0.84rem; }
+        .empty { grid-column: 1/-1; text-align: center; color: var(--sub); padding: 44px; }
+
+        /* Player */
+        .player { background: #fff; border-top: 1px solid var(--line); }
+        .p-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; }
+        .screen { background: var(--ink); border-radius: 14px; aspect-ratio: 16/9; display: grid; place-items: center; color: #fff; position: relative; overflow: hidden; }
+        .screen .play { width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,.16); border: 0; color: #fff; font-size: 1.4rem; cursor: pointer; transition: .2s; }
+        .screen .play:hover { background: var(--brand); }
+        .screen .cap { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 18px; background: linear-gradient(transparent, rgba(0,0,0,.75)); font-size: 0.88rem; }
+        .screen .tl { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--brand); transition: width .3s; }
+        .lessons { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; max-height: 380px; overflow-y: auto; }
+        .lesson { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 0.9rem; transition: .18s; }
+        .lesson:hover { background: var(--bg); }
+        .lesson.on { background: var(--brand-soft); }
+        .lesson .tick { width: 20px; height: 20px; border-radius: 50%; border: 1.6px solid var(--line); display: grid; place-items: center; font-size: 0.6rem; color: transparent; }
+        .lesson.done .tick { background: var(--ok); border-color: var(--ok); color: #fff; }
+        .lesson small { color: var(--sub); font-size: 0.76rem; }
+
+        /* Enrol modal */
+        .modal { position: fixed; inset: 0; background: rgba(16,24,40,.6); display: none; align-items: center; justify-content: center; z-index: 400; padding: 20px; }
+        .modal.on { display: flex; }
+        .modal-in { background: #fff; border-radius: 16px; max-width: 460px; width: 100%; padding: 28px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .x { position: absolute; top: 12px; right: 14px; background: none; border: 0; font-size: 1.4rem; cursor: pointer; color: var(--sub); }
+        .modal-in input, .modal-in select { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: 0.9rem; margin-bottom: 12px; }
+        .sumline { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 5px 0; color: var(--sub); }
+        .sumline.tot { color: var(--ink); font-weight: 800; border-top: 1px solid var(--line); margin-top: 8px; padding-top: 10px; font-size: 1.05rem; }
+
+        footer { background: var(--ink); color: #98A2B3; padding: 44px 0 22px; font-size: 0.88rem; }
+        .fg { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 28px; margin-bottom: 26px; }
+        footer h5 { color: #fff; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        footer a { display: block; padding: 3px 0; } footer a:hover { color: #fff; }
+        .fb { border-top: 1px solid rgba(255,255,255,.12); padding-top: 16px; font-size: 0.78rem; }
+
+        @media (max-width: 980px) { .hero-grid, .p-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2rem; } .fg { grid-template-columns: 1fr 1fr; }
+            nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: #fff; flex-direction: column; padding: 18px 22px; gap: 14px; border-bottom: 1px solid var(--line); }
+            nav.on { display: flex; } .burger { display: block; } }
+        @media (max-width: 560px) { .fg { grid-template-columns: 1fr; } .who .btn { display: none; } }
+    </style>
+</head>
+
+<body data-demo-id="education" data-demo-name="Education Platform" data-demo-price-inr="24999" data-demo-price-usd="999">
+
+    <header>
+        <div class="wrap">
+            <a href="#top" class="logo"><i class="fas fa-graduation-cap"></i> Vidya Learn</a>
+            <nav id="nav"><a href="#catalogue">Courses</a><a href="#classroom">My classroom</a><a href="#">Live batches</a><a href="#">For teams</a></nav>
+            <div class="who">
+                <button class="btn btn-o btn-sm" id="dashBtn">Dashboard</button>
+                <div class="av" title="Ananya Rao">AR</div>
+                <button class="burger" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="wrap hero-grid">
+            <div>
+                <h1>Learn the skill. Finish the course. Actually use it.</h1>
+                <p>Project-based courses in data, design and development, taught by people still doing the work. Hindi and English, lifetime access.</p>
+                <div class="hero-actions">
+                    <a href="#catalogue" class="btn btn-p">Browse 40+ courses</a>
+                    <a href="#classroom" class="btn btn-o">Continue learning</a>
+                </div>
+                <div class="hero-mini">
+                    <div><b>12,400</b>learners</div>
+                    <div><b>68%</b>completion rate</div>
+                    <div><b>4.8</b>average rating</div>
+                </div>
+            </div>
+            <div class="resume">
+                <div class="lbl">Pick up where you left off</div>
+                <h3 id="resumeTitle">Python for Data Analysis</h3>
+                <div class="les" id="resumeLesson">Lesson 4 · Cleaning messy CSVs with pandas</div>
+                <div class="prog"><i id="resumeBar" style="width:0%"></i></div>
+                <div class="prog-txt"><span id="resumePct">0% complete</span><span id="resumeLeft"></span></div>
+                <button class="btn btn-p" style="width:100%;margin-top:14px" id="resumeBtn">Resume lesson</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalogue">
+        <div class="wrap">
+            <div class="shead">
+                <div><h2>Course catalogue</h2><p>Every course includes a real project, graded by a human.</p></div>
+                <span style="font-size:0.86rem;color:var(--sub)" id="courseCount"></span>
+            </div>
+            <div class="tabs" id="tabs"></div>
+            <div class="courses" id="courses"></div>
+        </div>
+    </section>
+
+    <section class="player" id="classroom">
+        <div class="wrap">
+            <div class="shead">
+                <div><h2>Your classroom</h2><p id="classSub">Python for Data Analysis · Ananya Rao</p></div>
+                <span style="font-size:0.86rem;color:var(--sub)">Click any lesson to mark it complete</span>
+            </div>
+            <div class="p-grid">
+                <div>
+                    <div class="screen">
+                        <button class="play" id="playBtn" aria-label="Play lesson"><i class="fas fa-play"></i></button>
+                        <div class="cap" id="cap">Lesson 4 · Cleaning messy CSVs with pandas</div>
+                        <div class="tl" id="tl" style="width:0"></div>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+                        <button class="btn btn-o btn-sm" id="prevBtn"><i class="fas fa-backward-step"></i> Previous</button>
+                        <button class="btn btn-o btn-sm" id="nextBtn">Next lesson <i class="fas fa-forward-step"></i></button>
+                        <button class="btn btn-o btn-sm" id="notesBtn"><i class="fas fa-file-lines"></i> Lesson notes</button>
+                    </div>
+                </div>
+                <div class="lessons" id="lessons"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="fg">
+                <div>
+                    <div class="logo" style="color:#fff;margin-bottom:10px"><i class="fas fa-graduation-cap"></i> Vidya Learn</div>
+                    <p style="max-width:270px">Project-based online courses for Indian learners. Founded 2020.</p>
+                </div>
+                <div><h5>Learn</h5><a href="#catalogue">All courses</a><a href="#">Live batches</a><a href="#">Free lessons</a><a href="#">Certificates</a></div>
+                <div><h5>Company</h5><a href="#">About</a><a href="#">Teach with us</a><a href="#">Careers</a><a href="#">Contact</a></div>
+                <div><h5>Support</h5><a href="#">Help centre</a><a href="#">Refund policy</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+            </div>
+            <div class="fb">© 2026 Vidya Learn. A design demo by Kalyug Web Services.</div>
+        </div>
+    </footer>
+
+    <div class="modal" id="enrolModal">
+        <div class="modal-in">
+            <button class="x" data-x aria-label="Close">&times;</button>
+            <div id="enrolBody"></div>
+        </div>
+    </div>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        const courses = [
+            { id: 'c1', t: 'Python for Data Analysis', by: 'Ananya Rao', cat: 'Data', lvl: 'Beginner', h: 18, l: 42, r: 4.8, rc: 2140, p: 2999, was: 4999, i: 'fa-chart-simple', g: 'linear-gradient(140deg,#4338CA,#101828)', enrolled: true },
+            { id: 'c2', t: 'Product Design Foundations', by: 'Farah Qureshi', cat: 'Design', lvl: 'Beginner', h: 22, l: 56, r: 4.9, rc: 1680, p: 3499, i: 'fa-pen-ruler', g: 'linear-gradient(140deg,#DB2777,#101828)' },
+            { id: 'c3', t: 'Full-Stack JavaScript', by: 'Aravind Pillai', cat: 'Development', lvl: 'Intermediate', h: 46, l: 118, r: 4.7, rc: 3210, p: 5999, was: 8999, i: 'fa-code', g: 'linear-gradient(140deg,#0891B2,#101828)' },
+            { id: 'c4', t: 'SQL from Zero to Job-Ready', by: 'Meera Nair', cat: 'Data', lvl: 'Beginner', h: 14, l: 38, r: 4.6, rc: 1490, p: 1999, i: 'fa-database', g: 'linear-gradient(140deg,#059669,#101828)' },
+            { id: 'c5', t: 'Figma for Teams', by: 'Farah Qureshi', cat: 'Design', lvl: 'Intermediate', h: 9, l: 24, r: 4.8, rc: 860, p: 1499, i: 'fa-object-group', g: 'linear-gradient(140deg,#7C3AED,#101828)' },
+            { id: 'c6', t: 'Machine Learning in Practice', by: 'Dr. Rohit Sen', cat: 'Data', lvl: 'Advanced', h: 38, l: 84, r: 4.9, rc: 1120, p: 7999, was: 11999, i: 'fa-brain', g: 'linear-gradient(140deg,#B45309,#101828)' },
+            { id: 'c7', t: 'React Native Apps', by: 'Aravind Pillai', cat: 'Development', lvl: 'Intermediate', h: 26, l: 64, r: 4.5, rc: 740, p: 4499, i: 'fa-mobile-screen', g: 'linear-gradient(140deg,#2563EB,#101828)' },
+            { id: 'c8', t: 'Digital Marketing Essentials', by: 'Sara Thomas', cat: 'Marketing', lvl: 'Beginner', h: 16, l: 40, r: 4.4, rc: 980, p: 2499, i: 'fa-bullhorn', g: 'linear-gradient(140deg,#EA580C,#101828)' },
+            { id: 'c9', t: 'Growth Analytics', by: 'Sara Thomas', cat: 'Marketing', lvl: 'Advanced', h: 20, l: 48, r: 4.7, rc: 520, p: 4999, i: 'fa-arrow-trend-up', g: 'linear-gradient(140deg,#0F766E,#101828)' }
+        ];
+
+        const lessons = [
+            { t: 'What data analysis actually is', m: 8 }, { t: 'Setting up Python and Jupyter', m: 14 },
+            { t: 'Series, DataFrames and why they matter', m: 22 }, { t: 'Cleaning messy CSVs with pandas', m: 31 },
+            { t: 'Missing values without losing your mind', m: 19 }, { t: 'Grouping and aggregation', m: 27 },
+            { t: 'Joining datasets that disagree', m: 24 }, { t: 'Plotting with matplotlib', m: 18 },
+            { t: 'Project: analysing rainfall data', m: 46 }, { t: 'Where to go next', m: 7 }
+        ];
+
+        /* ---------- Persisted state ---------- */
+        const STORE = 'vidya.state.v1';
+        let state = { done: [0, 1, 2], at: 3, enrolled: ['c1'] };
+        try { state = Object.assign(state, JSON.parse(localStorage.getItem(STORE)) || {}); } catch (e) {}
+        const save = () => { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} };
+
+        /* ---------- Catalogue ---------- */
+        const cats = ['All', ...new Set(courses.map(c => c.cat))];
+        const tabs = document.getElementById('tabs');
+        tabs.innerHTML = cats.map((c, i) => `<button class="${i ? '' : 'on'}" data-c="${c}">${c}</button>`).join('');
+        let cat = 'All';
+
+        function stars(r) { return '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r)); }
+
+        function drawCourses() {
+            const list = cat === 'All' ? courses : courses.filter(c => c.cat === cat);
+            document.getElementById('courseCount').textContent = `${list.length} course${list.length === 1 ? '' : 's'}`;
+            document.getElementById('courses').innerHTML = list.map(c => {
+                const on = state.enrolled.includes(c.id);
+                return `
+                <article class="course">
+                    <div class="top" style="background:${c.g}">
+                        <i class="fas ${c.i}"></i><span class="lvl">${c.lvl}</span>
+                    </div>
+                    <div class="body">
+                        <h3>${c.t}</h3>
+                        <div class="by">by ${c.by}</div>
+                        <div class="rate">${stars(c.r)} <span>${c.r} (${c.rc.toLocaleString('en-IN')})</span></div>
+                        <div class="facts">
+                            <span><i class="fas fa-clock"></i>${c.h} hrs</span>
+                            <span><i class="fas fa-list-check"></i>${c.l} lessons</span>
+                        </div>
+                        <div class="foot">
+                            ${on ? '<span class="enrolled"><i class="fas fa-circle-check"></i> Enrolled</span>'
+                                 : `<span class="cost">${kwsMoney(c.p)}${c.was ? `<s>${kwsMoney(c.was)}</s>` : ''}</span>`}
+                            <button class="btn ${on ? 'btn-o' : 'btn-p'} btn-sm" data-c="${c.id}">${on ? 'Open' : 'Enrol'}</button>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('') || '<p class="empty">No courses in this category yet.</p>';
+        }
+
+        tabs.addEventListener('click', e => {
+            const b = e.target.closest('button');
+            if (!b) return;
+            tabs.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+            b.classList.add('on');
+            cat = b.dataset.c;
+            drawCourses();
+        });
+
+        document.getElementById('courses').addEventListener('click', e => {
+            const b = e.target.closest('[data-c]');
+            if (!b) return;
+            const c = courses.find(x => x.id === b.dataset.c);
+            if (state.enrolled.includes(c.id)) {
+                document.getElementById('classroom').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                openEnrol(c);
+            }
+        });
+
+        /* ---------- Enrolment ---------- */
+        const modal = document.getElementById('enrolModal');
+        function openEnrol(c) {
+            const gst = Math.round(c.p * 0.18);
+            document.getElementById('enrolBody').innerHTML = `
+                <h3 style="margin-bottom:4px">Enrol in ${c.t}</h3>
+                <p style="color:var(--sub);font-size:0.88rem;margin-bottom:18px">${c.h} hours · ${c.l} lessons · lifetime access</p>
+                <form id="enrolForm">
+                    <input required placeholder="Full name">
+                    <input required type="email" placeholder="Email">
+                    <input required type="tel" placeholder="Phone">
+                    <select><option>I'm a student</option><option>I'm working</option><option>Career switcher</option></select>
+                    <div class="sumline"><span>Course fee</span><span>${kwsMoney(c.p)}</span></div>
+                    <div class="sumline"><span>GST (18%)</span><span>${kwsMoney(gst)}</span></div>
+                    <div class="sumline tot"><span>Total</span><span>${kwsMoney(c.p + gst)}</span></div>
+                    <button class="btn btn-p" style="width:100%;margin-top:16px" type="submit">Pay ${kwsMoney(c.p + gst)}</button>
+                    <p style="font-size:0.74rem;color:var(--sub);text-align:center;margin-top:10px">Demo checkout — no payment is taken.</p>
+                </form>`;
+            document.getElementById('enrolForm').addEventListener('submit', e => {
+                e.preventDefault();
+                state.enrolled.push(c.id); save(); drawCourses();
+                modal.classList.remove('on');
+                kwsToast(`Enrolled in ${c.t}. It's in your classroom now.`);
+            });
+            modal.classList.add('on');
+        }
+        document.addEventListener('click', e => { if (e.target.closest('[data-x]')) modal.classList.remove('on'); });
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('on'); });
+
+        /* ---------- Player ---------- */
+        function drawLessons() {
+            document.getElementById('lessons').innerHTML = lessons.map((l, i) => `
+                <div class="lesson ${state.done.includes(i) ? 'done' : ''} ${state.at === i ? 'on' : ''}" data-l="${i}">
+                    <span class="tick"><i class="fas fa-check"></i></span>
+                    <div>${l.t}<br><small>Lesson ${i + 1}</small></div>
+                    <small>${l.m} min</small>
+                </div>`).join('');
+
+            const pct = Math.round(state.done.length / lessons.length * 100);
+            const left = lessons.filter((_, i) => !state.done.includes(i)).reduce((s, l) => s + l.m, 0);
+            document.getElementById('resumeBar').style.width = pct + '%';
+            document.getElementById('resumePct').textContent = pct + '% complete';
+            document.getElementById('resumeLeft').textContent = `${Math.round(left / 60 * 10) / 10} hrs left`;
+            document.getElementById('resumeLesson').textContent = `Lesson ${state.at + 1} · ${lessons[state.at].t}`;
+            document.getElementById('cap').textContent = `Lesson ${state.at + 1} · ${lessons[state.at].t}`;
+            document.getElementById('tl').style.width = (state.done.includes(state.at) ? 100 : 0) + '%';
+        }
+
+        document.getElementById('lessons').addEventListener('click', e => {
+            const row = e.target.closest('[data-l]');
+            if (!row) return;
+            const i = Number(row.dataset.l);
+            state.at = i;
+            if (!state.done.includes(i)) state.done.push(i);
+            else state.done = state.done.filter(x => x !== i);
+            save(); drawLessons();
+        });
+
+        document.getElementById('playBtn').addEventListener('click', () => {
+            if (!state.done.includes(state.at)) state.done.push(state.at);
+            save(); drawLessons();
+            kwsToast(`Playing: ${lessons[state.at].t}`);
+        });
+        document.getElementById('resumeBtn').addEventListener('click', () => {
+            document.getElementById('classroom').scrollIntoView({ behavior: 'smooth' });
+        });
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            state.at = Math.max(0, state.at - 1); save(); drawLessons();
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (!state.done.includes(state.at)) state.done.push(state.at);
+            state.at = Math.min(lessons.length - 1, state.at + 1); save(); drawLessons();
+        });
+        document.getElementById('notesBtn').addEventListener('click', () => kwsToast('Lesson notes open as a PDF in the live build.'));
+        document.getElementById('dashBtn').addEventListener('click', () => {
+            const pct = Math.round(state.done.length / lessons.length * 100);
+            kwsToast(`${state.enrolled.length} course(s) enrolled · ${pct}% through your current one.`);
+        });
+        document.getElementById('burger').addEventListener('click', () => document.getElementById('nav').classList.toggle('on'));
+
+        drawCourses();
+        drawLessons();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+/* ======================================================
+   RESPONSIVE — breakpoints at 992 / 768 / 480
+   ====================================================== */
+
+@media (max-width: 992px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .hero-content {
+        align-items: center;
+    }
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    .hero-subtitle {
+        max-width: 100%;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .hero-trust {
+        justify-content: center;
+    }
+    .hero-dashboard {
+        max-width: 380px;
+    }
+    .builder-layout {
+        grid-template-columns: 1fr;
+    }
+    .builder-summary {
+        position: static;
+    }
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .modal-content.wide {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(var(--bg-rgb), 0.98);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 24px;
+        gap: 16px;
+        display: none;
+        border-bottom: 1px solid rgba(var(--purple-rgb), 0.1);
+        max-height: calc(100vh - 100%);
+        overflow-y: auto;
+    }
+    .navbar-links.open {
+        display: flex;
+    }
+    .hamburger {
+        display: flex;
+    }
+    .navbar-actions {
+        gap: 10px;
+    }
+    .currency-switch button {
+        padding: 5px 10px;
+    }
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    section {
+        padding: 60px 0;
+    }
+    .demos-grid,
+    .services-grid,
+    .ai-grid,
+    .portfolio-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .social-pricing {
+        grid-template-columns: 1fr;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-bottom a {
+        margin: 0 10px;
+    }
+    .modal-content {
+        padding: 24px 16px;
+    }
+    .demo-preview-frame {
+        height: 240px;
+    }
+    .wa-float {
+        bottom: 24px;
+        left: 20px;
+        width: 46px;
+        height: 46px;
+        font-size: 1.3rem;
+    }
+    .back-to-top {
+        bottom: 24px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .demos-grid,
+    .services-grid,
+    .ai-grid,
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-dashboard {
+        max-width: 100%;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 12px;
+    }
+    .dashboard-card {
+        padding: 12px 10px;
+    }
+    .dashboard-card i {
+        font-size: 1.2rem;
+    }
+    .dashboard-card .value {
+        font-size: 1.1rem;
+    }
+    .dashboard-ring svg {
+        width: 90px;
+        height: 90px;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+    /* The navbar carries logo + currency + CTA + hamburger. Below 480px
+       that row overflows, so trim everything that is not load-bearing. */
+    .container {
+        padding: 0 16px;
+    }
+    .navbar .navbar-logo .logo-sub {
+        display: none;
+    }
+    .navbar .navbar-logo {
+        font-size: 1.25rem;
+    }
+    .navbar-actions {
+        gap: 8px;
+    }
+    .navbar-actions .btn-sm {
+        padding: 8px 14px;
+        font-size: 0.78rem;
+    }
+    /* Symbols only — no room for the currency codes. */
+    .currency-switch .cs-label {
+        display: none;
+    }
+    .currency-switch button {
+        padding: 5px 9px;
+        font-size: 0.85rem;
+    }
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    .stat-item .stat-number {
+        font-size: 2.2rem;
+    }
+    .testimonial-item {
+        padding: 0 4px;
+    }
+    .testimonial-item blockquote {
+        font-size: 1rem;
+    }
+    .demo-card .actions .btn {
+        flex: 1 1 100%;
+    }
+}

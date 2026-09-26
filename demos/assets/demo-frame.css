@@ -1,0 +1,128 @@
+/* ==============================================================
+   DEMO FRAME
+   --------------------------------------------------------------
+   The thin Kalyug bar that sits above every demo site. Injected by
+   demo-frame.js and hidden automatically when the page is loaded
+   inside a preview iframe (?embed=1).
+   ============================================================== */
+
+.kws-bar {
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    background: #050816;
+    color: #F8FAFC;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.35);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.kws-bar__brand {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.kws-bar__brand span {
+    color: #A855F7;
+    font-weight: 500;
+}
+
+.kws-bar__label {
+    color: #94A3B8;
+    flex: 1;
+    min-width: 140px;
+}
+
+.kws-bar__label strong {
+    color: #F8FAFC;
+    font-weight: 600;
+}
+
+.kws-bar__price {
+    color: #06B6D4;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.kws-bar__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.kws-bar a {
+    text-decoration: none;
+}
+
+.kws-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 40px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #F8FAFC;
+    border: 1px solid rgba(124, 58, 237, 0.6);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.kws-btn:hover {
+    background: rgba(124, 58, 237, 0.2);
+}
+
+.kws-btn--solid {
+    background: linear-gradient(135deg, #7C3AED, #06B6D4);
+    border-color: transparent;
+}
+
+.kws-btn--solid:hover {
+    filter: brightness(1.1);
+    background: linear-gradient(135deg, #7C3AED, #06B6D4);
+}
+
+@media (max-width: 640px) {
+    .kws-bar {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+    .kws-bar__label {
+        display: none;
+    }
+}
+
+/* Shared toast for demo interactions (bookings, cart, forms). */
+.kws-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%) translateY(16px);
+    background: #050816;
+    color: #F8FAFC;
+    border: 1px solid rgba(124, 58, 237, 0.5);
+    padding: 12px 26px;
+    border-radius: 40px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.88rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 100000;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+}
+
+.kws-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}

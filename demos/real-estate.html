@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian Estates — Real Estate Website Demo</title>
+    <meta name="description" content="Demo real estate website by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root {
+            --ink: #14202E; --sub: #5C6B7D; --line: #E4E9EF;
+            --brand: #0E7C66; --brand-soft: #E6F4F0; --bg: #FBFCFD; --card: #fff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Manrope', sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; border: 1px solid transparent; cursor: pointer; transition: 0.2s; font-family: inherit; }
+        .btn-p { background: var(--brand); color: #fff; }
+        .btn-p:hover { background: #0a6151; }
+        .btn-o { border-color: var(--line); background: #fff; color: var(--ink); }
+        .btn-o:hover { border-color: var(--brand); color: var(--brand); }
+
+        header { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 60; }
+        header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+        .logo { font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 9px; }
+        .logo i { color: var(--brand); }
+        .nav { display: flex; gap: 26px; font-size: 0.9rem; font-weight: 600; color: var(--sub); }
+        .nav a:hover { color: var(--brand); }
+        .burger { display: none; border: 0; background: none; font-size: 1.2rem; cursor: pointer; }
+
+        /* Hero + search */
+        .hero { background: linear-gradient(160deg, #14202E, #0E7C66); color: #fff; padding: 66px 0 96px; position: relative; }
+        .hero::after { content: ''; position: absolute; inset: 0; opacity: .12;
+            background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 46px 46px; }
+        .hero .wrap { position: relative; z-index: 2; }
+        .hero h1 { font-size: 2.9rem; line-height: 1.15; max-width: 640px; }
+        .hero p { opacity: .82; margin-top: 12px; max-width: 520px; }
+        .search { background: #fff; border-radius: 14px; padding: 16px; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 12px; margin-top: 34px; box-shadow: 0 24px 50px rgba(0,0,0,.22); }
+        .search label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--sub); margin-bottom: 5px; }
+        .search select, .search input { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: inherit; font-size: 0.9rem; color: var(--ink); background: #fff; }
+        .search .go { align-self: end; }
+
+        section { padding: 62px 0; }
+        .head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 26px; flex-wrap: wrap; }
+        .head h2 { font-size: 1.8rem; }
+        .head p { color: var(--sub); font-size: 0.92rem; }
+        .count { color: var(--sub); font-size: 0.88rem; font-weight: 600; }
+
+        .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+        .chip { border: 1px solid var(--line); background: #fff; color: var(--sub); border-radius: 30px; padding: 7px 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: .2s; font-family: inherit; }
+        .chip.on, .chip:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(288px, 1fr)); gap: 22px; }
+        .prop { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; transition: .25s; cursor: pointer; }
+        .prop:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(20,32,46,.10); }
+        .thumb { height: 168px; position: relative; display: grid; place-items: center; color: #fff; font-size: 2.4rem; }
+        .thumb .badge { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); color: var(--ink); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; padding: 4px 10px; border-radius: 20px; }
+        .thumb .fav { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.94); border: 0; cursor: pointer; color: var(--sub); }
+        .thumb .fav.on { color: #E5484D; }
+        .prop-body { padding: 16px 18px 18px; }
+        .price { font-size: 1.28rem; font-weight: 800; }
+        .price small { font-size: 0.78rem; color: var(--sub); font-weight: 600; }
+        .prop h3 { font-size: 1rem; margin: 4px 0 2px; }
+        .addr { color: var(--sub); font-size: 0.85rem; display: flex; gap: 6px; align-items: center; }
+        .specs { display: flex; gap: 16px; margin-top: 13px; padding-top: 13px; border-top: 1px solid var(--line); font-size: 0.83rem; color: var(--sub); }
+        .specs i { color: var(--brand); margin-right: 5px; }
+        .empty { grid-column: 1/-1; text-align: center; padding: 46px; color: var(--sub); }
+
+        /* EMI */
+        .emi { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .emi-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+        .slider-row { margin-bottom: 22px; }
+        .slider-row .top { display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700; margin-bottom: 8px; }
+        .slider-row .top span:last-child { color: var(--brand); }
+        input[type=range] { width: 100%; accent-color: var(--brand); }
+        .emi-out { background: var(--brand-soft); border-radius: 14px; padding: 28px; text-align: center; }
+        .emi-out .big { font-size: 2.4rem; font-weight: 800; color: var(--brand); }
+        .emi-out .lbl { font-size: 0.8rem; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .emi-split { display: flex; justify-content: space-around; margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(14,124,102,.2); font-size: 0.84rem; }
+        .emi-split b { display: block; font-size: 1.02rem; }
+
+        /* Agents */
+        .agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+        .agent { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; text-align: center; }
+        .agent .pic { width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 1.3rem; }
+        .agent b { display: block; }
+        .agent span { font-size: 0.82rem; color: var(--sub); }
+        .agent .stats { font-size: 0.78rem; color: var(--sub); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+
+        /* Modal */
+        .sheet { position: fixed; inset: 0; background: rgba(20,32,46,.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 500; }
+        .sheet.open { display: flex; }
+        .sheet-in { background: #fff; border-radius: 16px; max-width: 620px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+        .sheet-hero { height: 190px; display: grid; place-items: center; color: #fff; font-size: 3rem; border-radius: 16px 16px 0 0; }
+        .sheet-body { padding: 26px; }
+        .x { position: absolute; top: 12px; right: 14px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); font-size: 1.2rem; cursor: pointer; }
+        .kv { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 18px 0; }
+        .kv div { background: var(--bg); border-radius: 10px; padding: 12px 14px; }
+        .kv b { display: block; font-size: 0.72rem; color: var(--sub); text-transform: uppercase; letter-spacing: .8px; }
+        .amen { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
+        .amen span { background: var(--brand-soft); color: var(--brand); font-size: 0.78rem; font-weight: 700; padding: 5px 12px; border-radius: 20px; }
+
+        footer { background: var(--ink); color: #A9B7C6; padding: 46px 0 24px; font-size: 0.9rem; }
+        .fg { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 28px; }
+        footer h5 { color: #fff; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        footer a { display: block; padding: 3px 0; }
+        footer a:hover { color: #fff; }
+        .fb { border-top: 1px solid rgba(255,255,255,.12); padding-top: 18px; font-size: 0.8rem; }
+
+        @media (max-width: 980px) { .search { grid-template-columns: 1fr 1fr; } .emi-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } }
+        @media (max-width: 760px) { .nav { display: none; position: absolute; top: 72px; left: 0; right: 0; background: #fff; flex-direction: column; padding: 18px 22px; gap: 14px; border-bottom: 1px solid var(--line); }
+            .nav.open { display: flex; } .burger { display: block; } .fg { grid-template-columns: 1fr; } }
+        @media (max-width: 520px) { .search { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body data-demo-id="real-estate" data-demo-name="Real Estate Website" data-demo-price-inr="14999" data-demo-price-usd="599">
+
+    <header>
+        <div class="wrap">
+            <a href="#top" class="logo"><i class="fas fa-building-columns"></i> Meridian Estates</a>
+            <nav class="nav" id="nav">
+                <a href="#listings">Buy</a><a href="#listings">Rent</a><a href="#emi">EMI Calculator</a><a href="#agents">Agents</a>
+            </nav>
+            <a href="#agents" class="btn btn-p" style="padding:9px 18px">List your property</a>
+            <button class="burger" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="wrap">
+            <h1>Find the address you'll actually want to come home to.</h1>
+            <p>1,240 verified listings across Mumbai, Pune and Bengaluru. Every one visited by our team before it goes live.</p>
+            <div class="search">
+                <div><label for="fCity">City</label><select id="fCity"></select></div>
+                <div><label for="fType">Property type</label><select id="fType"></select></div>
+                <div><label for="fBeds">Bedrooms</label><select id="fBeds"><option>Any</option><option>1 BHK</option><option>2 BHK</option><option>3 BHK</option><option>4+ BHK</option></select></div>
+                <div><label for="fBudget">Max budget</label><select id="fBudget"><option value="999">Any</option><option value="1">Under ₹1 Cr</option><option value="2">Under ₹2 Cr</option><option value="3.5">Under ₹3.5 Cr</option></select></div>
+                <div class="go"><button class="btn btn-p" id="searchBtn" style="width:100%"><i class="fas fa-magnifying-glass"></i> Search</button></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="listings">
+        <div class="wrap">
+            <div class="head">
+                <div><h2>Available now</h2><p>Sorted by newest first.</p></div>
+                <div class="count" id="count"></div>
+            </div>
+            <div class="chips" id="chips"></div>
+            <div class="grid" id="grid"></div>
+        </div>
+    </section>
+
+    <section class="emi" id="emi">
+        <div class="wrap">
+            <div class="head"><div><h2>Home loan EMI calculator</h2><p>Drag to see what a property actually costs each month.</p></div></div>
+            <div class="emi-grid">
+                <div>
+                    <div class="slider-row">
+                        <div class="top"><span>Loan amount</span><span id="vAmt">₹80,00,000</span></div>
+                        <input type="range" id="sAmt" min="500000" max="50000000" step="100000" value="8000000">
+                    </div>
+                    <div class="slider-row">
+                        <div class="top"><span>Interest rate</span><span id="vRate">8.6% p.a.</span></div>
+                        <input type="range" id="sRate" min="6" max="14" step="0.1" value="8.6">
+                    </div>
+                    <div class="slider-row">
+                        <div class="top"><span>Tenure</span><span id="vYears">20 years</span></div>
+                        <input type="range" id="sYears" min="1" max="30" step="1" value="20">
+                    </div>
+                </div>
+                <div class="emi-out">
+                    <div class="lbl">Monthly EMI</div>
+                    <div class="big" id="emiOut">₹0</div>
+                    <div class="emi-split">
+                        <div><span>Total interest</span><b id="emiInterest">₹0</b></div>
+                        <div><span>Total payable</span><b id="emiTotal">₹0</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="agents">
+        <div class="wrap">
+            <div class="head"><div><h2>Talk to an agent</h2><p>Each one covers a single micro-market. They know the buildings, not just the listings.</p></div></div>
+            <div class="agents" id="agentGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="fg">
+                <div>
+                    <div class="logo" style="color:#fff;margin-bottom:10px"><i class="fas fa-building-columns"></i> Meridian Estates</div>
+                    <p style="max-width:300px">RERA registered · MahaRERA A52100012345. Verified listings across three cities.</p>
+                </div>
+                <div><h5>Buy</h5><a href="#listings">Apartments</a><a href="#listings">Villas</a><a href="#listings">Plots</a><a href="#listings">New launches</a></div>
+                <div><h5>Company</h5><a href="#agents">Our agents</a><a href="#">Careers</a><a href="#">Contact</a><a href="#">Privacy</a></div>
+            </div>
+            <div class="fb">© 2026 Meridian Estates. A design demo by Kalyug Web Services.</div>
+        </div>
+    </footer>
+
+    <div class="sheet" id="sheet">
+        <div class="sheet-in">
+            <button class="x" id="sheetX" aria-label="Close">&times;</button>
+            <div class="sheet-hero" id="sheetHero"><i class="fas fa-building"></i></div>
+            <div class="sheet-body">
+                <div class="price" id="sheetPrice" style="font-size:1.6rem"></div>
+                <h3 id="sheetTitle" style="margin:4px 0"></h3>
+                <div class="addr"><i class="fas fa-location-dot"></i><span id="sheetAddr"></span></div>
+                <div class="kv" id="sheetKv"></div>
+                <p id="sheetDesc" style="color:var(--sub);font-size:0.93rem"></p>
+                <div class="amen" id="sheetAmen"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <button class="btn btn-p" id="sheetVisit" style="flex:1">Schedule a visit</button>
+                    <button class="btn btn-o" id="sheetCall" style="flex:1">Call the agent</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        /* ---------- Data ---------- */
+        const props = [
+            { t: 'Sea-facing 3 BHK at Carter Road', city: 'Mumbai', area: 'Bandra West', type: 'Apartment', beds: '3 BHK', cr: 6.4, sqft: 1780, baths: 3, tag: 'For sale', g: 'linear-gradient(140deg,#0E7C66,#14202E)',
+              d: 'Eleventh floor, unobstructed western view, two covered parking bays. Society approved for immediate transfer.', a: ['Sea view', 'Gym', 'Covered parking', '24×7 security'] },
+            { t: 'Garden duplex in Koregaon Park', city: 'Pune', area: 'Koregaon Park', type: 'Villa', beds: '4+ BHK', cr: 3.2, sqft: 2450, baths: 4, tag: 'For sale', g: 'linear-gradient(140deg,#B45309,#14202E)',
+              d: 'Private 900 sq ft garden, servant quarters, and a basement that the last owner used as a studio.', a: ['Private garden', 'Servant quarters', 'Solar water', 'Pet friendly'] },
+            { t: 'Compact 1 BHK near Indiranagar Metro', city: 'Bengaluru', area: 'Indiranagar', type: 'Apartment', beds: '1 BHK', cr: 0.85, sqft: 620, baths: 1, tag: 'For rent', g: 'linear-gradient(140deg,#1D4ED8,#14202E)',
+              d: 'Four-minute walk to the metro. Fully furnished, ready to move, minimum eleven-month lease.', a: ['Furnished', 'Metro 400m', 'Power backup'] },
+            { t: 'Heritage 2 BHK, Fort district', city: 'Mumbai', area: 'Fort', type: 'Apartment', beds: '2 BHK', cr: 2.9, sqft: 1120, baths: 2, tag: 'For sale', g: 'linear-gradient(140deg,#7C3AED,#14202E)',
+              d: 'Grade IIA heritage building, 12-foot ceilings, original Burma teak flooring restored in 2024.', a: ['Heritage building', 'High ceilings', 'Wooden floors'] },
+            { t: 'Row house in Baner', city: 'Pune', area: 'Baner', type: 'Villa', beds: '3 BHK', cr: 1.75, sqft: 1650, baths: 3, tag: 'For sale', g: 'linear-gradient(140deg,#0891B2,#14202E)',
+              d: 'Corner unit in a 22-house gated lane. Terrace already plumbed for a garden.', a: ['Gated lane', 'Terrace', 'Two parking', 'Clubhouse'] },
+            { t: 'Builder floor in HSR Layout', city: 'Bengaluru', area: 'HSR Layout', type: 'Apartment', beds: '3 BHK', cr: 1.95, sqft: 1480, baths: 3, tag: 'For sale', g: 'linear-gradient(140deg,#059669,#14202E)',
+              d: 'Whole second floor, no shared walls. Vaastu compliant, east-facing entrance.', a: ['East facing', 'No shared walls', 'Modular kitchen'] },
+            { t: 'Studio at Lower Parel', city: 'Mumbai', area: 'Lower Parel', type: 'Apartment', beds: '1 BHK', cr: 1.35, sqft: 480, baths: 1, tag: 'For rent', g: 'linear-gradient(140deg,#DB2777,#14202E)',
+              d: 'High-floor studio in a serviced tower. Gym, pool and co-working included in maintenance.', a: ['Serviced', 'Pool', 'Co-working', 'Concierge'] },
+            { t: 'Corner plot, Whitefield', city: 'Bengaluru', area: 'Whitefield', type: 'Plot', beds: 'Any', cr: 2.4, sqft: 2400, baths: 0, tag: 'For sale', g: 'linear-gradient(140deg,#65A30D,#14202E)',
+              d: '30×80 BMRDA-approved corner plot with clear title and compound wall already built.', a: ['Clear title', 'Corner plot', 'Compound wall'] }
+        ];
+
+        const agents = [
+            { n: 'Kavita Menon', r: 'Bandra & Khar', i: 'KM', g: 'linear-gradient(140deg,#0E7C66,#14202E)', s: '212 deals closed' },
+            { n: 'Sameer Joshi', r: 'Koregaon Park', i: 'SJ', g: 'linear-gradient(140deg,#B45309,#14202E)', s: '158 deals closed' },
+            { n: 'Reena Iyer', r: 'Indiranagar & HSR', i: 'RI', g: 'linear-gradient(140deg,#1D4ED8,#14202E)', s: '184 deals closed' },
+            { n: 'Aditya Rao', r: 'Fort & Colaba', i: 'AR', g: 'linear-gradient(140deg,#7C3AED,#14202E)', s: '96 deals closed' }
+        ];
+
+        /* ---------- Filters ---------- */
+        const cities = ['All cities', ...new Set(props.map(p => p.city))];
+        const types = ['All types', ...new Set(props.map(p => p.type))];
+        document.getElementById('fCity').innerHTML = cities.map(c => `<option>${c}</option>`).join('');
+        document.getElementById('fType').innerHTML = types.map(t => `<option>${t}</option>`).join('');
+
+        const tags = ['All', 'For sale', 'For rent'];
+        const chips = document.getElementById('chips');
+        chips.innerHTML = tags.map((t, i) => `<button class="chip ${i ? '' : 'on'}" data-t="${t}">${t}</button>`).join('');
+
+        const favs = new Set();
+        let tagFilter = 'All';
+
+        function current() {
+            const city = document.getElementById('fCity').value;
+            const type = document.getElementById('fType').value;
+            const beds = document.getElementById('fBeds').value;
+            const max = parseFloat(document.getElementById('fBudget').value);
+            return props.filter(p =>
+                (city === 'All cities' || p.city === city) &&
+                (type === 'All types' || p.type === type) &&
+                (beds === 'Any' || p.beds === beds) &&
+                p.cr <= max &&
+                (tagFilter === 'All' || p.tag === tagFilter)
+            );
+        }
+
+        function crore(v) { return v >= 1 ? `₹${v} Cr` : `₹${Math.round(v * 100)} L`; }
+
+        function draw() {
+            const list = current();
+            const grid = document.getElementById('grid');
+            document.getElementById('count').textContent = `${list.length} propert${list.length === 1 ? 'y' : 'ies'}`;
+            if (!list.length) {
+                grid.innerHTML = '<p class="empty">No properties match those filters yet. Try widening the budget or city.</p>';
+                return;
+            }
+            grid.innerHTML = list.map(p => {
+                const i = props.indexOf(p);
+                return `
+                <article class="prop" data-i="${i}">
+                    <div class="thumb" style="background:${p.g}">
+                        <i class="fas ${p.type === 'Plot' ? 'fa-map' : p.type === 'Villa' ? 'fa-house' : 'fa-building'}"></i>
+                        <span class="badge">${p.tag}</span>
+                        <button class="fav ${favs.has(i) ? 'on' : ''}" data-fav="${i}" aria-label="Save"><i class="${favs.has(i) ? 'fas' : 'far'} fa-heart"></i></button>
+                    </div>
+                    <div class="prop-body">
+                        <div class="price">${crore(p.cr)} ${p.tag === 'For rent' ? '<small>/ mo equivalent</small>' : ''}</div>
+                        <h3>${p.t}</h3>
+                        <div class="addr"><i class="fas fa-location-dot"></i> ${p.area}, ${p.city}</div>
+                        <div class="specs">
+                            ${p.beds !== 'Any' ? `<span><i class="fas fa-bed"></i>${p.beds}</span>` : ''}
+                            ${p.baths ? `<span><i class="fas fa-bath"></i>${p.baths}</span>` : ''}
+                            <span><i class="fas fa-vector-square"></i>${p.sqft} sq ft</span>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+        }
+
+        chips.addEventListener('click', e => {
+            const c = e.target.closest('.chip');
+            if (!c) return;
+            chips.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
+            c.classList.add('on');
+            tagFilter = c.dataset.t;
+            draw();
+        });
+        ['fCity', 'fType', 'fBeds', 'fBudget'].forEach(id =>
+            document.getElementById(id).addEventListener('change', draw));
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            draw();
+            document.getElementById('listings').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        /* ---------- Card interactions ---------- */
+        document.getElementById('grid').addEventListener('click', e => {
+            const fav = e.target.closest('[data-fav]');
+            if (fav) {
+                const i = Number(fav.dataset.fav);
+                favs.has(i) ? favs.delete(i) : favs.add(i);
+                kwsToast(favs.has(i) ? 'Saved to your shortlist.' : 'Removed from shortlist.');
+                draw();
+                return;
+            }
+            const card = e.target.closest('[data-i]');
+            if (card) openSheet(Number(card.dataset.i));
+        });
+
+        const sheet = document.getElementById('sheet');
+        function openSheet(i) {
+            const p = props[i];
+            document.getElementById('sheetHero').style.background = p.g;
+            document.getElementById('sheetPrice').textContent = crore(p.cr);
+            document.getElementById('sheetTitle').textContent = p.t;
+            document.getElementById('sheetAddr').textContent = `${p.area}, ${p.city}`;
+            document.getElementById('sheetKv').innerHTML = `
+                <div><b>Type</b>${p.type}</div>
+                <div><b>Configuration</b>${p.beds === 'Any' ? '—' : p.beds}</div>
+                <div><b>Built-up area</b>${p.sqft} sq ft</div>
+                <div><b>Bathrooms</b>${p.baths || '—'}</div>`;
+            document.getElementById('sheetDesc').textContent = p.d;
+            document.getElementById('sheetAmen').innerHTML = p.a.map(a => `<span>${a}</span>`).join('');
+            sheet.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSheet() { sheet.classList.remove('open'); document.body.style.overflow = ''; }
+        document.getElementById('sheetX').addEventListener('click', closeSheet);
+        sheet.addEventListener('click', e => { if (e.target === sheet) closeSheet(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+        document.getElementById('sheetVisit').addEventListener('click', () => { closeSheet(); kwsToast('Visit requested — an agent will confirm a slot shortly.'); });
+        document.getElementById('sheetCall').addEventListener('click', () => { closeSheet(); kwsToast('Calling the listing agent…'); });
+
+        /* ---------- EMI ---------- */
+        const sAmt = document.getElementById('sAmt'), sRate = document.getElementById('sRate'), sYears = document.getElementById('sYears');
+        function emi() {
+            const P = +sAmt.value, r = (+sRate.value) / 12 / 100, n = (+sYears.value) * 12;
+            const m = r === 0 ? P / n : (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const total = m * n;
+            document.getElementById('vAmt').textContent = kwsMoney(P);
+            document.getElementById('vRate').textContent = (+sRate.value).toFixed(1) + '% p.a.';
+            document.getElementById('vYears').textContent = sYears.value + ' years';
+            document.getElementById('emiOut').textContent = kwsMoney(Math.round(m));
+            document.getElementById('emiInterest').textContent = kwsMoney(Math.round(total - P));
+            document.getElementById('emiTotal').textContent = kwsMoney(Math.round(total));
+        }
+        [sAmt, sRate, sYears].forEach(s => s.addEventListener('input', emi));
+        emi();
+
+        /* ---------- Agents ---------- */
+        document.getElementById('agentGrid').innerHTML = agents.map(a => `
+            <div class="agent">
+                <div class="pic" style="background:${a.g}">${a.i}</div>
+                <b>${a.n}</b><span>${a.r}</span>
+                <div class="stats">${a.s}</div>
+                <button class="btn btn-o" style="margin-top:14px;width:100%">Contact</button>
+            </div>`).join('');
+        document.getElementById('agentGrid').addEventListener('click', e => {
+            if (e.target.closest('button')) kwsToast('Enquiry sent — the agent will call you back.');
+        });
+
+        document.getElementById('burger').addEventListener('click', () =>
+            document.getElementById('nav').classList.toggle('open'));
+
+        draw();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Slow Signal — Blog &amp; Magazine Demo</title>
+    <meta name="description" content="Demo blog and magazine website by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root { --ink: #17171A; --sub: #6A6A73; --line: #E6E4E0; --bg: #FFFDF9; --accent: #A6280F; --tint: #F5F1EA; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.7; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .serif { font-family: 'Newsreader', Georgia, serif; }
+        h1, h2, h3, h4 { font-family: 'Newsreader', Georgia, serif; font-weight: 600; line-height: 1.18; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 22px; border-radius: 4px; font-weight: 600; font-size: 0.88rem; border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; transition: .2s; font-family: inherit; }
+        .btn:hover { background: var(--ink); color: var(--bg); }
+        .btn-fill { background: var(--ink); color: var(--bg); } .btn-fill:hover { background: var(--accent); border-color: var(--accent); }
+
+        .masthead { border-bottom: 2px solid var(--ink); }
+        .masthead .top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-size: 0.76rem; color: var(--sub); letter-spacing: .6px; text-transform: uppercase; }
+        .masthead .title { text-align: center; padding: 22px 0 26px; }
+        .masthead .title h1 { font-size: 3.4rem; letter-spacing: -1px; }
+        .masthead .title p { font-size: 0.8rem; letter-spacing: 3.4px; text-transform: uppercase; color: var(--sub); margin-top: 4px; }
+        .navbar { border-top: 1px solid var(--line); }
+        .navbar .wrap { display: flex; align-items: center; gap: 22px; height: 50px; }
+        .navbar nav { display: flex; gap: 22px; font-size: 0.85rem; font-weight: 600; }
+        .navbar nav a { color: var(--sub); } .navbar nav a:hover, .navbar nav a.on { color: var(--accent); }
+        .searchwrap { margin-left: auto; position: relative; }
+        .searchwrap input { border: 1px solid var(--line); border-radius: 30px; padding: 6px 14px 6px 32px; font: inherit; font-size: 0.84rem; width: 210px; background: #fff; }
+        .searchwrap i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--sub); font-size: 0.8rem; }
+
+        /* Lead story */
+        .lead { padding: 44px 0; border-bottom: 1px solid var(--line); }
+        .lead-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 44px; }
+        .lead .art { aspect-ratio: 16/10; border-radius: 6px; display: grid; place-items: center; color: #fff; font-size: 3rem; margin-bottom: 20px; }
+        .cat { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+        .lead h2 { font-size: 2.6rem; margin: 8px 0 12px; letter-spacing: -.6px; }
+        .lead p.dek { color: var(--sub); font-size: 1.05rem; }
+        .byline { font-size: 0.82rem; color: var(--sub); margin-top: 14px; }
+        .byline b { color: var(--ink); }
+        .side-list li { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 26px 1fr; gap: 14px; cursor: pointer; }
+        .side-list li:hover h4 { color: var(--accent); }
+        .side-list .no { font-family: 'Newsreader'; font-size: 1.5rem; color: var(--line); font-weight: 700; }
+        .side-list h4 { font-size: 1.06rem; }
+        .side-list small { color: var(--sub); font-size: 0.78rem; }
+
+        section { padding: 48px 0; }
+        .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 26px; flex-wrap: wrap; }
+        .sec-h h3 { font-size: 1.35rem; }
+        .sec-h span { font-size: 0.8rem; color: var(--sub); }
+
+        .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+        .chips button { border: 1px solid var(--line); background: #fff; border-radius: 30px; padding: 6px 15px; font-size: 0.8rem; color: var(--sub); cursor: pointer; font-family: inherit; transition: .2s; }
+        .chips button.on, .chips button:hover { border-color: var(--accent); color: var(--accent); }
+
+        .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .post { cursor: pointer; }
+        .post .art { aspect-ratio: 3/2; border-radius: 6px; display: grid; place-items: center; color: #fff; font-size: 1.9rem; margin-bottom: 13px; transition: .25s; }
+        .post:hover .art { transform: translateY(-4px); }
+        .post h4 { font-size: 1.18rem; margin: 6px 0 6px; }
+        .post:hover h4 { color: var(--accent); }
+        .post p { font-size: 0.9rem; color: var(--sub); }
+        .meta { font-size: 0.76rem; color: var(--sub); margin-top: 9px; display: flex; gap: 10px; }
+        .empty { grid-column: 1/-1; text-align: center; color: var(--sub); padding: 40px; }
+
+        /* Newsletter */
+        .news { background: var(--tint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; }
+        .news h3 { font-size: 2rem; }
+        .news p { color: var(--sub); max-width: 420px; margin: 10px auto 22px; }
+        .news form { display: flex; gap: 10px; max-width: 400px; margin: 0 auto; }
+        .news input { flex: 1; padding: 12px 16px; border: 1px solid var(--line); border-radius: 4px; font: inherit; font-size: 0.9rem; background: #fff; }
+
+        /* Reader */
+        .reader { position: fixed; inset: 0; background: var(--bg); z-index: 400; overflow-y: auto; display: none; }
+        .reader.on { display: block; }
+        .reader-bar { position: sticky; top: 0; background: rgba(255,253,249,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 3; }
+        .reader-bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .prog { height: 3px; background: var(--accent); width: 0; }
+        .article { max-width: 680px; margin: 0 auto; padding: 40px 22px 80px; }
+        .article .art { aspect-ratio: 16/9; border-radius: 6px; display: grid; place-items: center; color: #fff; font-size: 3rem; margin-bottom: 26px; }
+        .article h1 { font-size: 2.6rem; letter-spacing: -.8px; margin: 10px 0 14px; }
+        .article .dek { font-size: 1.15rem; color: var(--sub); font-family: 'Newsreader'; }
+        .article .bl { display: flex; align-items: center; gap: 12px; padding: 18px 0; margin: 18px 0 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 0.85rem; }
+        .article .bl .av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 0.8rem; }
+        .article .bl b { display: block; }
+        .article .bl span { color: var(--sub); }
+        .article p { font-family: 'Newsreader'; font-size: 1.16rem; line-height: 1.75; margin-bottom: 20px; }
+        .article p:first-of-type::first-letter { font-size: 3.4rem; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
+        .article h2 { font-size: 1.6rem; margin: 32px 0 12px; }
+        .article blockquote { border-left: 3px solid var(--accent); padding-left: 20px; margin: 26px 0; font-family: 'Newsreader'; font-size: 1.3rem; font-style: italic; color: var(--ink); }
+        .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--line); }
+        .tags span { background: var(--tint); border-radius: 30px; padding: 4px 14px; font-size: 0.78rem; color: var(--sub); }
+
+        footer { padding: 42px 0 24px; border-top: 2px solid var(--ink); font-size: 0.86rem; color: var(--sub); }
+        .fg { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 28px; margin-bottom: 26px; }
+        footer h5 { color: var(--ink); font-size: 0.76rem; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: 12px; }
+        footer a { display: block; padding: 3px 0; } footer a:hover { color: var(--accent); }
+        .fb { border-top: 1px solid var(--line); padding-top: 16px; font-size: 0.78rem; }
+
+        @media (max-width: 900px) { .lead-grid { grid-template-columns: 1fr; } .posts { grid-template-columns: 1fr 1fr; } .masthead .title h1 { font-size: 2.3rem; } .fg { grid-template-columns: 1fr 1fr; } .navbar nav { overflow-x: auto; } .searchwrap input { width: 140px; } }
+        @media (max-width: 600px) { .posts { grid-template-columns: 1fr; } .lead h2 { font-size: 1.8rem; } .article h1 { font-size: 1.9rem; } .fg { grid-template-columns: 1fr; } .masthead .top { display: none; } }
+    </style>
+</head>
+
+<body data-demo-id="blog" data-demo-name="Modern Blog &amp; Magazine" data-demo-price-inr="8999" data-demo-price-usd="349">
+
+    <header class="masthead">
+        <div class="wrap">
+            <div class="top">
+                <span id="todayDate"></span>
+                <span>Issue 47</span>
+                <span>Bengaluru</span>
+            </div>
+            <div class="title">
+                <h1>The Slow Signal</h1>
+                <p>Technology, work and the long view</p>
+            </div>
+        </div>
+        <div class="navbar">
+            <div class="wrap">
+                <nav id="nav"></nav>
+                <div class="searchwrap">
+                    <i class="fas fa-magnifying-glass"></i>
+                    <input id="q" type="search" placeholder="Search articles…" aria-label="Search articles">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="lead">
+        <div class="wrap lead-grid">
+            <article id="leadStory"></article>
+            <div>
+                <div class="sec-h"><h3>Most read</h3></div>
+                <ul class="side-list" id="mostRead"></ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="wrap">
+            <div class="sec-h">
+                <h3 id="listTitle">Latest</h3>
+                <span id="listCount"></span>
+            </div>
+            <div class="chips" id="chips"></div>
+            <div class="posts" id="posts"></div>
+        </div>
+    </section>
+
+    <section class="news">
+        <div class="wrap">
+            <h3>One good essay, every Sunday</h3>
+            <p>No news roundups, no growth hacks. Around 1,800 words, read in eleven minutes, gone from your inbox after that.</p>
+            <form id="newsForm">
+                <input type="email" placeholder="your@email.com" required aria-label="Email">
+                <button class="btn btn-fill" type="submit">Subscribe</button>
+            </form>
+            <p style="font-size:0.78rem;margin-top:12px;color:var(--sub)">9,400 readers · unsubscribe in one click</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="fg">
+                <div>
+                    <h5>The Slow Signal</h5>
+                    <p style="max-width:280px">An independent magazine about technology and the long view. Reader-funded since 2021.</p>
+                </div>
+                <div><h5>Sections</h5><a href="#">Work</a><a href="#">Technology</a><a href="#">Culture</a><a href="#">Interviews</a></div>
+                <div><h5>About</h5><a href="#">Our story</a><a href="#">Writers</a><a href="#">Pitch us</a><a href="#">Contact</a></div>
+                <div><h5>Follow</h5><a href="#">Newsletter</a><a href="#">RSS</a><a href="#">Mastodon</a><a href="#">Instagram</a></div>
+            </div>
+            <div class="fb">© 2026 The Slow Signal. A design demo by Kalyug Web Services.</div>
+        </div>
+    </footer>
+
+    <div class="reader" id="reader">
+        <div class="reader-bar">
+            <div class="wrap">
+                <button class="btn" id="readerBack" style="padding:7px 16px"><i class="fas fa-arrow-left"></i> Back</button>
+                <span class="serif" style="font-size:1.1rem">The Slow Signal</span>
+                <button class="btn" id="readerShare" style="padding:7px 16px"><i class="fas fa-link"></i> Copy link</button>
+            </div>
+            <div class="prog" id="prog"></div>
+        </div>
+        <article class="article" id="article"></article>
+    </div>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        document.getElementById('todayDate').textContent =
+            new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+        const posts = [
+            { c: 'Work', t: 'The four-day week nobody talks about', dek: 'Six Indian companies tried it. Two went back. What separated them had nothing to do with productivity.',
+              a: 'Nandita Roy', av: 'NR', ag: 'linear-gradient(140deg,#A6280F,#17171A)', min: 11, d: '18 Aug 2026', g: 'linear-gradient(140deg,#A6280F,#17171A)', i: 'fa-calendar-week', reads: 1,
+              tags: ['Labour', 'Management', 'India'],
+              body: `<p>The pilot ran for fourteen months across six companies in three cities, and by the end of it the results looked less like a verdict and more like a Rorschach test.</p>
+              <p>Two firms reverted to five days. Four kept the shortened week. The obvious explanation — that the four that kept it simply got more done — turns out to be wrong. Output was roughly flat everywhere.</p>
+              <h2>What actually separated them</h2>
+              <p>The companies that stuck with it had one thing in common that had nothing to do with hours: they had already killed the status meeting. Not reduced it. Killed it.</p>
+              <blockquote>"We didn't find four days of work in five days. We found one and a half days of theatre."</blockquote>
+              <p>The two that reverted had tried to compress the same calendar into fewer days. Predictably, Thursday became a nine-hour scramble and Friday became a day people quietly worked anyway.</p>
+              <h2>The uncomfortable part</h2>
+              <p>Every firm that succeeded had fewer than sixty people. Nobody in the pilot has yet shown it working at scale in an organisation with more than three management layers, and the honest answer about whether it can is that we do not know.</p>
+              <p>That is not an argument against trying. It is an argument against the case studies you have been sent by a consultancy.</p>` },
+
+            { c: 'Technology', t: 'Your app does not need an AI feature', dek: 'A field guide to telling the difference between a genuine use case and a board slide.',
+              a: 'Vikram Shah', av: 'VS', ag: 'linear-gradient(140deg,#1D4ED8,#17171A)', min: 9, d: '11 Aug 2026', g: 'linear-gradient(140deg,#1D4ED8,#17171A)', i: 'fa-microchip', reads: 2,
+              tags: ['AI', 'Product', 'Software'],
+              body: `<p>There is a specific kind of feature request that arrives in the week after a funding round, and it always sounds the same.</p>
+              <p>The test I have started using is simple: describe the feature without the word "AI". If the sentence still describes something a user asked for, build it. If the sentence collapses, you have a slide, not a feature.</p>
+              <h2>Three that pass</h2>
+              <p>Search that understands a badly typed query. Summarising a two-hundred-message thread. Extracting structured data from documents that arrive as scans. All three describe a real, specific irritation.</p>
+              <blockquote>"Nobody has ever opened a support ticket asking for a chatbot."</blockquote>
+              <h2>Three that fail</h2>
+              <p>A chat assistant bolted onto a five-screen product. Auto-generated content in a tool people use precisely because they want to write. And "AI-powered insights", which is almost always a bar chart with a sentence above it.</p>
+              <p>None of this is an argument against the technology. It is an argument for asking the same question you would ask about any other feature, which the last three years have made oddly difficult to do out loud.</p>` },
+
+            { c: 'Culture', t: 'The quiet death of the Indian office canteen', dek: 'Food delivery did not replace it. Something stranger happened.',
+              a: 'Ayesha Kapoor', av: 'AK', ag: 'linear-gradient(140deg,#B45309,#17171A)', min: 8, d: '4 Aug 2026', g: 'linear-gradient(140deg,#B45309,#17171A)', i: 'fa-utensils', reads: 3,
+              tags: ['Cities', 'Work', 'Food'],
+              body: `<p>In 2015 the canteen at a mid-sized Pune software firm served four hundred lunches a day. Last month it served thirty-one.</p>
+              <p>The easy story is delivery apps. The actual story involves a change to the way lunch breaks are scheduled that nobody remembers approving.</p>
+              <h2>The scheduling problem</h2>
+              <p>When standups moved to 12:30 to accommodate a client in another timezone, the lunch hour fractured. A canteen needs a peak. Fragment the peak and the economics stop working within a quarter.</p>
+              <blockquote>"We didn't lose to Swiggy. We lost to a recurring calendar invite."</blockquote>
+              <p>What replaced it is not delivery so much as absence — people eating at desks, at different times, alone. The thing the canteen was actually providing, it turns out, was a reason for everyone to be in the same room without an agenda.</p>` },
+
+            { c: 'Interviews', t: '"We shipped nothing for eleven months"', dek: 'A founder on the rewrite that nearly ended the company, and why she would do it again.',
+              a: 'Nandita Roy', av: 'NR', ag: 'linear-gradient(140deg,#A6280F,#17171A)', min: 14, d: '28 Jul 2026', g: 'linear-gradient(140deg,#0E7C66,#17171A)', i: 'fa-comments', reads: 4,
+              tags: ['Founders', 'Engineering'],
+              body: `<p>Meera Iyer runs a logistics platform used by roughly nine hundred small transporters. In 2024 she stopped shipping features entirely for eleven months.</p>
+              <h2>Why stop?</h2>
+              <p>"Because we were spending sixty percent of engineering time on incidents. That is not a rewrite decision, that is arithmetic."</p>
+              <blockquote>"Customers do not thank you for the rewrite. They thank you for the six months afterwards."</blockquote>
+              <p>Churn during the freeze was about four percent higher than the year before — bad, but survivable. In the eleven months after relaunch, it fell below anything they had recorded.</p>
+              <h2>What she would change</h2>
+              <p>"I would have told customers the truth in month one instead of month five. Every single one who left, left during the silence."</p>` },
+
+            { c: 'Technology', t: 'What a decade of Indian UPI actually taught us', dek: 'The lesson is not about payments. It is about who is allowed to build rails.',
+              a: 'Vikram Shah', av: 'VS', ag: 'linear-gradient(140deg,#1D4ED8,#17171A)', min: 12, d: '21 Jul 2026', g: 'linear-gradient(140deg,#7C3AED,#17171A)', i: 'fa-indian-rupee-sign', reads: 5,
+              tags: ['Fintech', 'Policy', 'India'],
+              body: `<p>The number everyone quotes is transaction volume. The number that matters is the fee, which is zero, and the reason it is zero.</p>
+              <p>Public infrastructure with private applications on top is not a new idea. What was unusual was the refusal to let the rails become a product.</p>
+              <h2>The counterfactual</h2>
+              <p>Had the same system launched as a private consortium, the plausible outcome is a two percent merchant fee and roughly a third of the adoption.</p>
+              <blockquote>"The most consequential design decision was one about pricing, made before a line of code was written."</blockquote>
+              <p>Which is the actual export: not the technology, but the governance model. Several countries have copied the former. Almost none have copied the latter.</p>` },
+
+            { c: 'Work', t: 'Remote work did not fail. Middle management did.', dek: 'Three years of return-to-office mandates, and the data still points somewhere uncomfortable.',
+              a: 'Ayesha Kapoor', av: 'AK', ag: 'linear-gradient(140deg,#B45309,#17171A)', min: 10, d: '14 Jul 2026', g: 'linear-gradient(140deg,#0891B2,#17171A)', i: 'fa-house-laptop', reads: 6,
+              tags: ['Management', 'Remote'],
+              body: `<p>The mandates are now old enough to evaluate. The results are not flattering to either side of the argument.</p>
+              <p>Teams with clear written specifications performed roughly the same in both settings. Teams without them performed worse remotely — and, notably, also performed badly in the office. The office was hiding the problem, not solving it.</p>
+              <h2>What the office was actually doing</h2>
+              <p>Providing an ambient error-correction layer. You overhear the wrong assumption and fix it in eight seconds. Remove that and an organisation discovers how much of its coordination was accidental.</p>
+              <blockquote>"You cannot replace hallway correction with a Slack channel. You replace it with writing things down, which is harder and slower and works better."</blockquote>
+              <p>The companies that adapted well did not buy tools. They started writing.</p>` }
+        ];
+
+        /* ---------- Nav / sections ---------- */
+        const cats = ['All', ...new Set(posts.map(p => p.c))];
+        document.getElementById('nav').innerHTML = cats.map((c, i) =>
+            `<a href="#" data-c="${c}" class="${i ? '' : 'on'}">${c === 'All' ? 'Home' : c}</a>`).join('');
+        document.getElementById('chips').innerHTML = cats.map((c, i) =>
+            `<button class="${i ? '' : 'on'}" data-c="${c}">${c}</button>`).join('');
+
+        let cat = 'All', term = '';
+
+        /* ---------- Lead + most read ---------- */
+        const lead = posts[0];
+        document.getElementById('leadStory').innerHTML = `
+            <div class="art" style="background:${lead.g}"><i class="fas ${lead.i}"></i></div>
+            <div class="cat">${lead.c}</div>
+            <h2>${lead.t}</h2>
+            <p class="dek">${lead.dek}</p>
+            <div class="byline">By <b>${lead.a}</b> · ${lead.d} · ${lead.min} min read</div>`;
+        document.getElementById('leadStory').style.cursor = 'pointer';
+        document.getElementById('leadStory').addEventListener('click', () => openReader(0));
+
+        // Keyed by index, not title — one headline contains quote marks.
+        document.getElementById('mostRead').innerHTML = [...posts]
+            .sort((a, b) => a.reads - b.reads).slice(0, 5)
+            .map((p, i) => `
+                <li data-i="${posts.indexOf(p)}">
+                    <span class="no">${i + 1}</span>
+                    <div><h4>${p.t}</h4><small>${p.c} · ${p.min} min</small></div>
+                </li>`).join('');
+        document.getElementById('mostRead').addEventListener('click', e => {
+            const li = e.target.closest('[data-i]');
+            if (li) openReader(Number(li.dataset.i));
+        });
+
+        /* ---------- Grid ---------- */
+        function drawPosts() {
+            const list = posts.filter(p =>
+                (cat === 'All' || p.c === cat) &&
+                (!term || (p.t + ' ' + p.dek + ' ' + p.a + ' ' + p.tags.join(' ')).toLowerCase().includes(term)));
+
+            document.getElementById('listTitle').textContent = term ? `Results for “${term}”` : (cat === 'All' ? 'Latest' : cat);
+            document.getElementById('listCount').textContent = `${list.length} article${list.length === 1 ? '' : 's'}`;
+            document.getElementById('posts').innerHTML = list.length ? list.map(p => `
+                <article class="post" data-i="${posts.indexOf(p)}">
+                    <div class="art" style="background:${p.g}"><i class="fas ${p.i}"></i></div>
+                    <div class="cat">${p.c}</div>
+                    <h4>${p.t}</h4>
+                    <p>${p.dek}</p>
+                    <div class="meta"><span>${p.a}</span><span>·</span><span>${p.d}</span><span>·</span><span>${p.min} min</span></div>
+                </article>`).join('')
+                : `<p class="empty">Nothing found. Try another word, or <a href="#" style="color:var(--accent)" id="clearS">clear the search</a>.</p>`;
+        }
+
+        document.getElementById('posts').addEventListener('click', e => {
+            if (e.target.id === 'clearS') {
+                e.preventDefault();
+                term = ''; document.getElementById('q').value = ''; return drawPosts();
+            }
+            const card = e.target.closest('[data-i]');
+            if (card) openReader(Number(card.dataset.i));
+        });
+
+        function setCat(c) {
+            cat = c;
+            document.querySelectorAll('#chips button').forEach(b => b.classList.toggle('on', b.dataset.c === c));
+            document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.c === c));
+            drawPosts();
+        }
+        document.getElementById('chips').addEventListener('click', e => {
+            const b = e.target.closest('button'); if (b) setCat(b.dataset.c);
+        });
+        document.getElementById('nav').addEventListener('click', e => {
+            const a = e.target.closest('a'); if (!a) return;
+            e.preventDefault(); setCat(a.dataset.c);
+        });
+        document.getElementById('q').addEventListener('input', e => {
+            term = e.target.value.trim().toLowerCase(); drawPosts();
+        });
+
+        /* ---------- Reader ---------- */
+        const reader = document.getElementById('reader');
+        function openReader(i) {
+            const p = posts[i];
+            if (!p) return;
+            document.getElementById('article').innerHTML = `
+                <div class="art" style="background:${p.g}"><i class="fas ${p.i}"></i></div>
+                <div class="cat">${p.c}</div>
+                <h1>${p.t}</h1>
+                <p class="dek">${p.dek}</p>
+                <div class="bl">
+                    <span class="av" style="background:${p.ag}">${p.av}</span>
+                    <span><b>${p.a}</b><span>${p.d} · ${p.min} min read</span></span>
+                </div>
+                ${p.body}
+                <div class="tags">${p.tags.map(t => `<span>#${t}</span>`).join('')}</div>`;
+            reader.classList.add('on');
+            reader.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        function closeReader() { reader.classList.remove('on'); document.body.style.overflow = ''; }
+        document.getElementById('readerBack').addEventListener('click', closeReader);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReader(); });
+        document.getElementById('readerShare').addEventListener('click', () => kwsToast('Article link copied to clipboard.'));
+
+        // Reading-progress bar.
+        reader.addEventListener('scroll', () => {
+            const max = reader.scrollHeight - reader.clientHeight;
+            document.getElementById('prog').style.width = (max > 0 ? reader.scrollTop / max * 100 : 0) + '%';
+        });
+
+        /* ---------- Newsletter ---------- */
+        document.getElementById('newsForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const v = e.target.querySelector('input').value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return kwsToast('Please enter a valid email address.');
+            e.target.reset();
+            kwsToast('Subscribed — the next issue arrives on Sunday.');
+        });
+
+        drawPosts();
+    </script>
+</body>
+
+</html>

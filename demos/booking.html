@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lila Salon &amp; Spa — Booking Website Demo</title>
+    <meta name="description" content="Demo salon booking website by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root { --ink: #2B2320; --sub: #857A73; --line: #EAE2DC; --bg: #FDFBF9; --blush: #C77D6B; --blush-soft: #F8EDE9; --sage: #7C8B76; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Karla', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.65; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        h1, h2, h3, .serif { font-family: 'Marcellus', Georgia, serif; font-weight: 400; line-height: 1.2; }
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 0 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 28px; border-radius: 4px; font-weight: 600; font-size: 0.86rem; letter-spacing: .6px; border: 1px solid var(--blush); background: transparent; color: var(--blush); cursor: pointer; transition: .22s; font-family: inherit; }
+        .btn:hover { background: var(--blush-soft); }
+        .btn-fill { background: var(--blush); color: #fff; } .btn-fill:hover { background: #B26A59; color: #fff; }
+        .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+        header { background: rgba(253,251,249,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 60; }
+        header .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+        .logo { font-family: 'Marcellus'; font-size: 1.5rem; letter-spacing: 1px; }
+        .logo span { color: var(--blush); }
+        nav { display: flex; gap: 26px; font-size: 0.84rem; letter-spacing: 1px; text-transform: uppercase; color: var(--sub); }
+        nav a:hover { color: var(--blush); }
+        .burger { display: none; background: none; border: 0; font-size: 1.2rem; cursor: pointer; }
+
+        .hero { padding: 76px 0; background: var(--blush-soft); position: relative; overflow: hidden; }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+        .hero h1 { font-size: 3.4rem; }
+        .hero p { color: var(--sub); max-width: 420px; margin: 18px 0 28px; }
+        .hero-badges { display: flex; gap: 22px; margin-top: 30px; font-size: 0.82rem; color: var(--sub); flex-wrap: wrap; }
+        .hero-badges i { color: var(--blush); margin-right: 6px; }
+        .frame { aspect-ratio: 4/5; border-radius: 200px 200px 8px 8px; background: linear-gradient(160deg, var(--blush), var(--ink)); display: grid; place-items: center; color: #fff; font-size: 3.6rem; }
+
+        section { padding: 78px 0; }
+        .center { text-align: center; max-width: 560px; margin: 0 auto 44px; }
+        .kicker { font-size: 0.74rem; letter-spacing: 3px; text-transform: uppercase; color: var(--blush); margin-bottom: 10px; }
+        .center h2 { font-size: 2.4rem; }
+        .center p { color: var(--sub); margin-top: 12px; }
+
+        /* Booking */
+        .book { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; flex-wrap: wrap; }
+        .step { display: flex; align-items: center; gap: 10px; padding: 0 22px; color: var(--sub); font-size: 0.86rem; }
+        .step b { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 0.76rem; font-weight: 600; }
+        .step.on { color: var(--ink); } .step.on b { background: var(--blush); border-color: var(--blush); color: #fff; }
+        .step.done b { background: var(--sage); border-color: var(--sage); color: #fff; }
+
+        .panel { max-width: 780px; margin: 0 auto; }
+        .svc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .svc { border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; cursor: pointer; transition: .2s; background: #fff; display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; text-align: left; font-family: inherit; }
+        .svc:hover { border-color: var(--blush); }
+        .svc.on { border-color: var(--blush); background: var(--blush-soft); }
+        .svc h4 { font-family: 'Marcellus'; font-size: 1.02rem; }
+        .svc small { color: var(--sub); font-size: 0.8rem; display: block; }
+        .svc .p { color: var(--blush); font-weight: 700; white-space: nowrap; }
+
+        .days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; }
+        .day { min-width: 74px; border: 1px solid var(--line); border-radius: 8px; padding: 12px 8px; text-align: center; cursor: pointer; background: #fff; transition: .2s; font-family: inherit; }
+        .day.on { border-color: var(--blush); background: var(--blush-soft); }
+        .day.shut { opacity: .38; cursor: not-allowed; }
+        .day b { display: block; font-size: 1.15rem; font-family: 'Marcellus'; }
+        .day span { font-size: 0.72rem; color: var(--sub); text-transform: uppercase; letter-spacing: .8px; }
+
+        .times { display: flex; flex-wrap: wrap; gap: 8px; }
+        .time { border: 1px solid var(--line); border-radius: 6px; padding: 9px 16px; font-size: 0.86rem; cursor: pointer; background: #fff; transition: .2s; font-family: inherit; }
+        .time.on { border-color: var(--blush); background: var(--blush); color: #fff; }
+        .time.taken { opacity: .32; cursor: not-allowed; text-decoration: line-through; }
+
+        .staff { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .pro { border: 1px solid var(--line); border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; background: #fff; transition: .2s; font-family: inherit; }
+        .pro.on { border-color: var(--blush); background: var(--blush-soft); }
+        .pro .av { width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; color: #fff; font-family: 'Marcellus'; font-size: 1.1rem; }
+        .pro b { display: block; font-size: 0.92rem; } .pro span { font-size: 0.78rem; color: var(--sub); }
+
+        .summary { background: var(--blush-soft); border-radius: 10px; padding: 22px; margin-top: 26px; }
+        .sline { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.9rem; color: var(--sub); gap: 14px; }
+        .sline b { color: var(--ink); text-align: right; }
+        .sline.tot { border-top: 1px solid rgba(199,125,107,.3); margin-top: 10px; padding-top: 12px; font-size: 1.06rem; color: var(--ink); font-weight: 700; }
+        .who-form { display: grid; gap: 12px; margin-top: 20px; }
+        .who-form input { padding: 12px 14px; border: 1px solid var(--line); border-radius: 6px; font: inherit; font-size: 0.9rem; background: #fff; }
+        .who-form input:focus { outline: 2px solid var(--blush); outline-offset: 1px; border-color: transparent; }
+        .r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nav-btns { display: flex; justify-content: space-between; gap: 12px; margin-top: 26px; }
+
+        .confirmed { text-align: center; padding: 40px 20px; }
+        .confirmed .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--sage); color: #fff; display: grid; place-items: center; font-size: 1.6rem; margin: 0 auto 18px; }
+        .ref { display: inline-block; background: #fff; border: 1px dashed var(--line); border-radius: 6px; padding: 8px 18px; font-family: monospace; margin-top: 12px; }
+
+        /* Price list + team */
+        .price-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 860px; margin: 0 auto; }
+        .pl { display: flex; align-items: baseline; gap: 12px; padding: 13px 0; border-bottom: 1px dashed var(--line); }
+        .pl .n { flex: 1; }
+        .pl .n small { display: block; color: var(--sub); font-size: 0.78rem; }
+        .pl .v { color: var(--blush); font-family: 'Marcellus'; font-size: 1.1rem; }
+
+        footer { background: var(--ink); color: #C2B7B0; padding: 46px 0 22px; font-size: 0.88rem; }
+        .fg { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; margin-bottom: 26px; }
+        footer h5 { color: #fff; font-size: 0.76rem; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
+        footer a { display: block; padding: 3px 0; } footer a:hover { color: #fff; }
+        .fb { border-top: 1px solid rgba(255,255,255,.14); padding-top: 16px; font-size: 0.78rem; }
+
+        @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2.4rem; } .frame { max-width: 300px; }
+            .svc-list, .price-list { grid-template-columns: 1fr; } .fg { grid-template-columns: 1fr; }
+            nav { display: none; position: absolute; top: 76px; left: 0; right: 0; background: var(--bg); flex-direction: column; padding: 20px 22px; gap: 15px; border-bottom: 1px solid var(--line); }
+            nav.on { display: flex; } .burger { display: block; } }
+        @media (max-width: 520px) { .r2 { grid-template-columns: 1fr; } .step { padding: 0 10px; font-size: 0.78rem; } }
+    </style>
+</head>
+
+<body data-demo-id="booking" data-demo-name="Salon &amp; Spa Booking" data-demo-price-inr="12999" data-demo-price-usd="499">
+
+    <header>
+        <div class="wrap">
+            <a href="#top" class="logo">Lila<span>.</span></a>
+            <nav id="nav"><a href="#book">Book</a><a href="#prices">Price list</a><a href="#team">Our team</a><a href="#visit">Visit</a></nav>
+            <a href="#book" class="btn btn-fill" style="padding:10px 22px">Book now</a>
+            <button class="burger" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="wrap hero-grid">
+            <div>
+                <div class="kicker">Salon &amp; day spa · Indiranagar</div>
+                <h1>An hour that belongs entirely to you.</h1>
+                <p>Hair, skin and body treatments in a quiet room off 12th Main. Book in under a minute — pick a service, a therapist and a time that suits you.</p>
+                <a href="#book" class="btn btn-fill">Book an appointment</a>
+                <div class="hero-badges">
+                    <span><i class="fas fa-star"></i>4.9 on Google (612 reviews)</span>
+                    <span><i class="fas fa-leaf"></i>Cruelty-free products</span>
+                    <span><i class="fas fa-clock"></i>Open 7 days</span>
+                </div>
+            </div>
+            <div class="frame"><i class="fas fa-spa"></i></div>
+        </div>
+    </section>
+
+    <section class="book" id="book">
+        <div class="wrap">
+            <div class="center">
+                <div class="kicker">Booking</div>
+                <h2>Reserve your slot</h2>
+            </div>
+            <div class="steps" id="steps"></div>
+            <div class="panel" id="panel"></div>
+        </div>
+    </section>
+
+    <section id="prices">
+        <div class="wrap">
+            <div class="center"><div class="kicker">Price list</div><h2>Everything we offer</h2></div>
+            <div class="price-list" id="priceList"></div>
+        </div>
+    </section>
+
+    <section id="team" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+        <div class="wrap">
+            <div class="center"><div class="kicker">Our team</div><h2>Twelve years, four therapists</h2></div>
+            <div class="staff" id="teamGrid" style="max-width:780px;margin:0 auto"></div>
+        </div>
+    </section>
+
+    <footer id="visit">
+        <div class="wrap">
+            <div class="fg">
+                <div>
+                    <div class="logo" style="color:#fff;margin-bottom:10px">Lila<span>.</span></div>
+                    <p style="max-width:280px">418, 12th Main, Indiranagar, Bengaluru 560038<br>+91 80 4123 7788</p>
+                </div>
+                <div><h5>Hours</h5><a href="#">Mon–Fri · 10:00–20:00</a><a href="#">Saturday · 09:00–21:00</a><a href="#">Sunday · 10:00–18:00</a></div>
+                <div><h5>More</h5><a href="#prices">Price list</a><a href="#">Gift vouchers</a><a href="#">Cancellation policy</a><a href="#">Careers</a></div>
+            </div>
+            <div class="fb">© 2026 Lila Salon &amp; Spa. A design demo by Kalyug Web Services.</div>
+        </div>
+    </footer>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        const services = [
+            { n: 'Cut &amp; blow dry', d: '60 min · with a senior stylist', p: 1200, min: 60, cat: 'Hair' },
+            { n: 'Balayage', d: '180 min · includes toner', p: 6500, min: 180, cat: 'Hair' },
+            { n: 'Keratin treatment', d: '150 min', p: 5500, min: 150, cat: 'Hair' },
+            { n: 'Hydrafacial', d: '75 min · medical grade', p: 3800, min: 75, cat: 'Skin' },
+            { n: 'Classic facial', d: '60 min', p: 1800, min: 60, cat: 'Skin' },
+            { n: 'Deep tissue massage', d: '90 min', p: 3200, min: 90, cat: 'Body' },
+            { n: 'Aromatherapy massage', d: '60 min', p: 2400, min: 60, cat: 'Body' },
+            { n: 'Manicure &amp; pedicure', d: '75 min · gel optional', p: 1600, min: 75, cat: 'Nails' }
+        ];
+        const staff = [
+            { n: 'Ritu', r: 'Senior stylist', i: 'R', g: 'linear-gradient(140deg,#C77D6B,#2B2320)' },
+            { n: 'Anand', r: 'Colour specialist', i: 'A', g: 'linear-gradient(140deg,#7C8B76,#2B2320)' },
+            { n: 'Fatima', r: 'Skin therapist', i: 'F', g: 'linear-gradient(140deg,#9C6B8E,#2B2320)' },
+            { n: 'Any available', r: 'First free therapist', i: '✳', g: 'linear-gradient(140deg,#857A73,#2B2320)' }
+        ];
+        const slots = ['10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+        // Deterministic "already booked" slots so the demo behaves consistently.
+        const busy = { 0: ['11:00', '16:00'], 1: ['10:00'], 2: ['13:00', '17:00', '18:00'], 3: [], 4: ['12:00', '19:00'], 5: ['10:00', '11:00', '15:00'], 6: ['16:00'] };
+
+        const state = { step: 0, svc: null, day: 0, time: null, pro: 3 };
+        const stepNames = ['Service', 'Date &amp; time', 'Therapist', 'Your details'];
+
+        const days = Array.from({ length: 7 }, (_, i) => {
+            const d = new Date(); d.setDate(d.getDate() + i);
+            return d;
+        });
+
+        function drawSteps() {
+            document.getElementById('steps').innerHTML = stepNames.map((n, i) => `
+                <div class="step ${state.step === i ? 'on' : ''} ${state.step > i ? 'done' : ''}">
+                    <b>${state.step > i ? '<i class="fas fa-check"></i>' : i + 1}</b>${n}
+                </div>`).join('');
+        }
+
+        function money(v) { return kwsMoney(v); }
+
+        function summaryHtml() {
+            const s = services[state.svc];
+            const d = days[state.day];
+            return `
+                <div class="summary">
+                    <div class="sline"><span>Service</span><b>${s.n}</b></div>
+                    <div class="sline"><span>When</span><b>${d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}${state.time ? ', ' + state.time : ''}</b></div>
+                    <div class="sline"><span>Therapist</span><b>${staff[state.pro].n}</b></div>
+                    <div class="sline"><span>Duration</span><b>${s.min} min</b></div>
+                    <div class="sline tot"><span>Total</span><b>${money(s.p)}</b></div>
+                </div>`;
+        }
+
+        function draw() {
+            drawSteps();
+            const panel = document.getElementById('panel');
+
+            if (state.step === 0) {
+                panel.innerHTML = `
+                    <div class="svc-list">${services.map((s, i) => `
+                        <button class="svc ${state.svc === i ? 'on' : ''}" data-svc="${i}">
+                            <span><h4>${s.n}</h4><small>${s.d}</small></span>
+                            <span class="p">${money(s.p)}</span>
+                        </button>`).join('')}</div>
+                    <div class="nav-btns"><span></span>
+                        <button class="btn btn-fill" data-next ${state.svc === null ? 'disabled' : ''}>Continue</button>
+                    </div>`;
+            }
+
+            if (state.step === 1) {
+                const taken = busy[state.day] || [];
+                panel.innerHTML = `
+                    <div class="days">${days.map((d, i) => `
+                        <button class="day ${state.day === i ? 'on' : ''}" data-day="${i}">
+                            <span>${d.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
+                            <b>${d.getDate()}</b>
+                            <span>${d.toLocaleDateString('en-IN', { month: 'short' })}</span>
+                        </button>`).join('')}</div>
+                    <div class="times">${slots.map(t => `
+                        <button class="time ${taken.includes(t) ? 'taken' : ''} ${state.time === t ? 'on' : ''}"
+                                data-time="${t}" ${taken.includes(t) ? 'disabled' : ''}>${t}</button>`).join('')}</div>
+                    <p style="font-size:0.8rem;color:var(--sub);margin-top:14px">Struck-through slots are already taken.</p>
+                    <div class="nav-btns">
+                        <button class="btn" data-back>Back</button>
+                        <button class="btn btn-fill" data-next ${!state.time ? 'disabled' : ''}>Continue</button>
+                    </div>`;
+            }
+
+            if (state.step === 2) {
+                panel.innerHTML = `
+                    <div class="staff">${staff.map((p, i) => `
+                        <button class="pro ${state.pro === i ? 'on' : ''}" data-pro="${i}">
+                            <span class="av" style="background:${p.g}">${p.i}</span>
+                            <b>${p.n}</b><span>${p.r}</span>
+                        </button>`).join('')}</div>
+                    ${summaryHtml()}
+                    <div class="nav-btns">
+                        <button class="btn" data-back>Back</button>
+                        <button class="btn btn-fill" data-next>Continue</button>
+                    </div>`;
+            }
+
+            if (state.step === 3) {
+                panel.innerHTML = `
+                    ${summaryHtml()}
+                    <form class="who-form" id="whoForm">
+                        <div class="r2"><input id="bkName" placeholder="Full name" required><input id="bkPhone" type="tel" placeholder="Phone number" required></div>
+                        <input id="bkEmail" type="email" placeholder="Email (for your confirmation)" required>
+                        <input id="bkNote" placeholder="Anything we should know? (optional)">
+                        <div class="nav-btns">
+                            <button class="btn" type="button" data-back>Back</button>
+                            <button class="btn btn-fill" type="submit">Confirm booking</button>
+                        </div>
+                    </form>
+                    <p style="font-size:0.78rem;color:var(--sub);text-align:center;margin-top:14px">
+                        Free cancellation up to 4 hours before. No card needed to hold the slot.
+                    </p>`;
+            }
+
+            if (state.step === 4) {
+                const s = services[state.svc], d = days[state.day];
+                panel.innerHTML = `
+                    <div class="confirmed">
+                        <div class="tick"><i class="fas fa-check"></i></div>
+                        <h2 style="font-size:1.8rem">You're booked in</h2>
+                        <p style="color:var(--sub);margin-top:8px">
+                            ${s.n} with ${staff[state.pro].n}<br>
+                            ${d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })} at ${state.time}
+                        </p>
+                        <div class="ref">REF ${'LS' + Math.floor(10000 + Math.random() * 89999)}</div>
+                        <p style="font-size:0.84rem;color:var(--sub);margin-top:18px">A confirmation is on its way to your email and phone.</p>
+                        <button class="btn" style="margin-top:20px" data-reset>Book another appointment</button>
+                    </div>`;
+            }
+        }
+
+        document.getElementById('panel').addEventListener('click', e => {
+            const svc = e.target.closest('[data-svc]');
+            if (svc) { state.svc = Number(svc.dataset.svc); return draw(); }
+
+            const day = e.target.closest('[data-day]');
+            if (day) { state.day = Number(day.dataset.day); state.time = null; return draw(); }
+
+            const time = e.target.closest('[data-time]');
+            if (time && !time.disabled) { state.time = time.dataset.time; return draw(); }
+
+            const pro = e.target.closest('[data-pro]');
+            if (pro) { state.pro = Number(pro.dataset.pro); return draw(); }
+
+            if (e.target.closest('[data-next]')) { state.step++; return draw(); }
+            if (e.target.closest('[data-back]')) { state.step--; return draw(); }
+            if (e.target.closest('[data-reset]')) {
+                Object.assign(state, { step: 0, svc: null, day: 0, time: null, pro: 3 });
+                return draw();
+            }
+        });
+
+        document.getElementById('panel').addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.getElementById('bkName').value.trim();
+            const phone = document.getElementById('bkPhone').value.trim();
+            const email = document.getElementById('bkEmail').value.trim();
+            if (!name || phone.replace(/\D/g, '').length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+                return kwsToast('Please check your name, phone and email.');
+            }
+            state.step = 4;
+            draw();
+            kwsToast('Appointment confirmed. See you soon!');
+        });
+
+        /* Price list + team */
+        document.getElementById('priceList').innerHTML = services.map(s => `
+            <div class="pl"><span class="n">${s.n}<small>${s.d}</small></span><span class="v">${money(s.p)}</span></div>`).join('');
+        document.getElementById('teamGrid').innerHTML = staff.slice(0, 3).map(p => `
+            <div class="pro" style="cursor:default">
+                <span class="av" style="background:${p.g}">${p.i}</span>
+                <b>${p.n}</b><span>${p.r}</span>
+            </div>`).join('');
+
+        document.getElementById('burger').addEventListener('click', () => document.getElementById('nav').classList.toggle('on'));
+
+        draw();
+    </script>
+</body>
+
+</html>

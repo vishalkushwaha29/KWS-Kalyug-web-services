@@ -1,0 +1,38 @@
+# Netlify config for a plain static site — no build step needed.
+# Drag this folder onto app.netlify.com/drop, or connect the repo.
+
+[build]
+  publish = "."
+  command = ""
+
+# Long cache for versioned static assets.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# CSS and JS change with releases — revalidate.
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+# Baseline security headers.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Pretty URLs for the demos: /demos/restaurant -> /demos/restaurant.html
+[[redirects]]
+  from = "/demos/:slug"
+  to = "/demos/:slug.html"
+  status = 200

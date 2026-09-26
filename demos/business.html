@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexa Consulting — Modern Business Website Demo</title>
+    <meta name="description" content="Demo business website by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root {
+            --ink: #0B1F3A;
+            --ink-soft: #4A5C75;
+            --accent: #1D6FEB;
+            --accent-soft: #E8F0FE;
+            --line: #E3E8EF;
+            --bg: #FFFFFF;
+            --bg-alt: #F6F8FB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; color: var(--ink); background: var(--bg); line-height: 1.65; }
+        img { max-width: 100%; display: block; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; line-height: 1.15; }
+        .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+        .eyebrow { text-transform: uppercase; letter-spacing: 1.4px; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: 6px; font-weight: 600; font-size: 0.94rem; border: 1px solid transparent; cursor: pointer; transition: 0.2s; }
+        .btn-solid { background: var(--ink); color: #fff; }
+        .btn-solid:hover { background: var(--accent); }
+        .btn-ghost { border-color: var(--line); color: var(--ink); background: #fff; }
+        .btn-ghost:hover { border-color: var(--ink); }
+
+        /* Nav */
+        .nav { border-bottom: 1px solid var(--line); background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 50; }
+        .kws-embedded .nav { top: 0; }
+        .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 74px; }
+        .logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .logo em { color: var(--accent); font-style: normal; }
+        .nav-links { display: flex; gap: 30px; font-size: 0.92rem; font-weight: 500; }
+        .nav-links a { color: var(--ink-soft); transition: 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-toggle { display: none; background: none; border: 0; font-size: 1.3rem; cursor: pointer; }
+
+        /* Hero */
+        .hero { padding: 84px 0 72px; background: linear-gradient(180deg, var(--accent-soft), #fff); }
+        .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+        .hero h1 { font-size: 3.2rem; margin: 14px 0 18px; }
+        .hero p { font-size: 1.1rem; color: var(--ink-soft); max-width: 480px; }
+        .hero-cta { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+        .hero-proof { display: flex; gap: 26px; margin-top: 36px; font-size: 0.85rem; color: var(--ink-soft); }
+        .hero-proof b { display: block; font-size: 1.5rem; color: var(--ink); font-family: 'Fraunces', serif; }
+        .hero-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px; box-shadow: 0 24px 60px rgba(11,31,58,0.10); }
+        .hero-card h4 { font-family: 'Inter'; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-soft); margin-bottom: 18px; }
+        .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-size: 0.86rem; }
+        .bar-row span:first-child { width: 108px; color: var(--ink-soft); }
+        .bar { flex: 1; height: 8px; background: var(--bg-alt); border-radius: 8px; overflow: hidden; }
+        .bar i { display: block; height: 100%; background: var(--accent); border-radius: 8px; width: 0; transition: width 1.1s cubic-bezier(.2,.8,.3,1); }
+        .bar-row b { width: 44px; text-align: right; }
+
+        /* Sections */
+        section { padding: 78px 0; }
+        .alt { background: var(--bg-alt); }
+        .head { max-width: 620px; margin-bottom: 44px; }
+        .head h2 { font-size: 2.3rem; margin: 10px 0 12px; }
+        .head p { color: var(--ink-soft); }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+        .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 30px 26px; transition: 0.25s; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(11,31,58,0.08); border-color: #CBD8EA; }
+        .card i.ico { width: 46px; height: 46px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-size: 1.1rem; margin-bottom: 18px; }
+        .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+        .card p { color: var(--ink-soft); font-size: 0.93rem; }
+        .card ul { margin-top: 14px; font-size: 0.88rem; color: var(--ink-soft); }
+        .card ul li { padding: 3px 0 3px 20px; position: relative; }
+        .card ul li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: var(--accent); font-size: 0.72rem; }
+
+        /* About */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+        .about-grid p { color: var(--ink-soft); margin-bottom: 14px; }
+        .team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .member { text-align: center; }
+        .avatar { width: 100%; aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; font-family: 'Fraunces', serif; font-size: 1.8rem; color: #fff; margin-bottom: 10px; }
+        .member b { display: block; font-size: 0.92rem; }
+        .member span { font-size: 0.78rem; color: var(--ink-soft); }
+
+        /* Quote */
+        .quote { text-align: center; max-width: 760px; margin: 0 auto; }
+        .quote blockquote { font-family: 'Fraunces', serif; font-size: 1.55rem; line-height: 1.45; margin: 18px 0 22px; }
+        .quote .who { font-size: 0.9rem; color: var(--ink-soft); }
+
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+        form { display: grid; gap: 14px; }
+        .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        label { font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 6px; }
+        input, textarea, select { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 0.93rem; background: #fff; }
+        input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+        .err { color: #C0392B; font-size: 0.78rem; display: none; margin-top: 4px; }
+        .bad .err { display: block; }
+        .bad input, .bad textarea, .bad select { border-color: #C0392B; }
+        .info-item { display: flex; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+        .info-item i { color: var(--accent); width: 22px; font-size: 1.05rem; margin-top: 3px; }
+        .info-item b { display: block; font-size: 0.8rem; color: var(--ink-soft); font-weight: 600; }
+        .map { margin-top: 24px; height: 170px; border-radius: 12px; border: 1px solid var(--line); background:
+            repeating-linear-gradient(0deg, #EEF2F7 0 1px, transparent 1px 34px),
+            repeating-linear-gradient(90deg, #EEF2F7 0 1px, transparent 1px 34px), #F8FAFC;
+            display: grid; place-items: center; color: var(--ink-soft); font-size: 0.85rem; }
+
+        footer { background: var(--ink); color: #C7D3E4; padding: 52px 0 26px; font-size: 0.9rem; }
+        .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 36px; margin-bottom: 34px; }
+        footer .logo { color: #fff; }
+        footer h5 { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+        footer a { display: block; padding: 4px 0; transition: 0.2s; }
+        footer a:hover { color: #fff; }
+        .foot-bot { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 20px; font-size: 0.82rem; }
+
+        @media (max-width: 900px) {
+            .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.4rem; }
+            .nav-links { display: none; position: absolute; top: 74px; left: 0; right: 0; background: #fff; flex-direction: column; padding: 18px 24px; gap: 14px; border-bottom: 1px solid var(--line); }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+            .foot-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+        @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } .team { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+
+<body data-demo-id="business" data-demo-name="Modern Business Website" data-demo-price-inr="7999" data-demo-price-usd="299">
+
+    <header class="nav">
+        <div class="wrap">
+            <a href="#top" class="logo">Nexa<em>.</em></a>
+            <nav class="nav-links" id="navLinks">
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#results">Results</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <a href="#contact" class="btn btn-solid" style="padding:10px 20px">Book a call</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="wrap hero-grid">
+            <div>
+                <span class="eyebrow">Strategy &amp; operations consulting</span>
+                <h1>Clear thinking for companies in a messy market.</h1>
+                <p>We help mid-sized businesses fix the bottlenecks that quietly cost them growth — pricing, process, and the numbers nobody has looked at in two years.</p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-solid">Book a free consultation</a>
+                    <a href="#services" class="btn btn-ghost">See what we do</a>
+                </div>
+                <div class="hero-proof">
+                    <div><b>140+</b>engagements delivered</div>
+                    <div><b>18 yrs</b>average partner experience</div>
+                    <div><b>4.9/5</b>client rating</div>
+                </div>
+            </div>
+            <div class="hero-card">
+                <h4>Where clients gain the most</h4>
+                <div class="bar-row"><span>Margin</span><span class="bar"><i data-w="82"></i></span><b>+18%</b></div>
+                <div class="bar-row"><span>Cycle time</span><span class="bar"><i data-w="66"></i></span><b>−31%</b></div>
+                <div class="bar-row"><span>Retention</span><span class="bar"><i data-w="74"></i></span><b>+22%</b></div>
+                <div class="bar-row"><span>Admin hours</span><span class="bar"><i data-w="58"></i></span><b>−40%</b></div>
+                <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:6px">Median change across engagements, first 12 months.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="wrap">
+            <div class="head">
+                <span class="eyebrow">What we do</span>
+                <h2>Three practices, one team</h2>
+                <p>No junior-heavy pyramids. The person who scopes your project is the person who does the work.</p>
+            </div>
+            <div class="cards">
+                <div class="card">
+                    <i class="ico fas fa-compass-drafting"></i>
+                    <h3>Growth Strategy</h3>
+                    <p>Where the next ₹1 crore actually comes from, and what it costs to get it.</p>
+                    <ul><li>Market &amp; competitor mapping</li><li>Pricing architecture</li><li>Channel economics</li></ul>
+                </div>
+                <div class="card">
+                    <i class="ico fas fa-diagram-project"></i>
+                    <h3>Operations</h3>
+                    <p>Process redesign that survives contact with your actual team.</p>
+                    <ul><li>Workflow audit</li><li>Vendor &amp; supply review</li><li>SOPs your staff will use</li></ul>
+                </div>
+                <div class="card">
+                    <i class="ico fas fa-chart-column"></i>
+                    <h3>Finance &amp; Reporting</h3>
+                    <p>Dashboards that answer the question instead of raising three more.</p>
+                    <ul><li>Unit economics model</li><li>Cash-flow forecasting</li><li>Board-ready reporting</li></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="alt" id="about">
+        <div class="wrap about-grid">
+            <div>
+                <span class="eyebrow">Who you'll work with</span>
+                <h2 style="font-size:2.3rem;margin:10px 0 16px">A small team, on purpose</h2>
+                <p>Nexa was founded in 2014 by three operators who got tired of watching good businesses stall on problems that were fixable in a quarter.</p>
+                <p>We take on eight clients a year. That constraint is the product — it means partners stay on your project from kickoff to handover, and it means we say no to work we can't move the needle on.</p>
+                <a href="#contact" class="btn btn-ghost" style="margin-top:12px">Talk to a partner</a>
+            </div>
+            <div class="team">
+                <div class="member">
+                    <div class="avatar" style="background:linear-gradient(140deg,#1D6FEB,#0B1F3A)">MR</div>
+                    <b>Meera Raghavan</b><span>Managing Partner</span>
+                </div>
+                <div class="member">
+                    <div class="avatar" style="background:linear-gradient(140deg,#0F766E,#0B1F3A)">DK</div>
+                    <b>Devan Kurup</b><span>Operations</span>
+                </div>
+                <div class="member">
+                    <div class="avatar" style="background:linear-gradient(140deg,#7C3AED,#0B1F3A)">AS</div>
+                    <b>Anita Sood</b><span>Finance</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="results">
+        <div class="wrap quote">
+            <span class="eyebrow">Client results</span>
+            <blockquote>&ldquo;They spent two weeks just watching how we work before proposing anything. That's why the plan actually stuck.&rdquo;</blockquote>
+            <div class="who"><strong>Rohit Bhandari</strong> — Managing Director, Vertex Packaging</div>
+        </div>
+    </section>
+
+    <section class="alt" id="contact">
+        <div class="wrap">
+            <div class="head">
+                <span class="eyebrow">Get in touch</span>
+                <h2>Book a free 30-minute consultation</h2>
+                <p>Tell us the problem in a sentence. If we're not the right people, we'll say so and point you somewhere better.</p>
+            </div>
+            <div class="contact-grid">
+                <form id="bizForm" novalidate>
+                    <div class="row2">
+                        <div class="fld"><label for="bn">Name</label><input id="bn" required placeholder="Your name"><span class="err">Required</span></div>
+                        <div class="fld"><label for="bc">Company</label><input id="bc" placeholder="Company name"></div>
+                    </div>
+                    <div class="row2">
+                        <div class="fld"><label for="be">Email</label><input id="be" type="email" required placeholder="you@company.com"><span class="err">Enter a valid email</span></div>
+                        <div class="fld"><label for="bp">Phone</label><input id="bp" type="tel" placeholder="+91"></div>
+                    </div>
+                    <div class="fld">
+                        <label for="bs">What do you need help with?</label>
+                        <select id="bs" required>
+                            <option value="">Choose one</option>
+                            <option>Growth strategy</option>
+                            <option>Operations &amp; process</option>
+                            <option>Finance &amp; reporting</option>
+                            <option>Not sure yet</option>
+                        </select>
+                        <span class="err">Pick an option</span>
+                    </div>
+                    <div class="fld"><label for="bm">Brief</label><textarea id="bm" rows="4" required placeholder="One or two lines is plenty."></textarea><span class="err">Required</span></div>
+                    <button class="btn btn-solid" type="submit" style="justify-content:center">Request consultation</button>
+                </form>
+                <div>
+                    <div class="info-item"><i class="fas fa-envelope"></i><div><b>Email</b>hello@nexaconsulting.example</div></div>
+                    <div class="info-item"><i class="fas fa-phone"></i><div><b>Phone</b>+91 22 4000 1200</div></div>
+                    <div class="info-item"><i class="fas fa-location-dot"></i><div><b>Office</b>Level 8, Prabhadevi, Mumbai 400025</div></div>
+                    <div class="info-item" style="border:0"><i class="fas fa-clock"></i><div><b>Hours</b>Mon–Fri, 9:30–18:30 IST</div></div>
+                    <div class="map"><span><i class="fas fa-map-location-dot"></i> Google Map embeds here in the live build</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="foot-grid">
+                <div>
+                    <div class="logo" style="margin-bottom:10px">Nexa<em style="color:#5B9BFF">.</em></div>
+                    <p style="max-width:300px">Strategy and operations consulting for mid-sized Indian businesses. Established 2014.</p>
+                </div>
+                <div><h5>Company</h5><a href="#about">About</a><a href="#services">Services</a><a href="#results">Case studies</a><a href="#contact">Contact</a></div>
+                <div><h5>Legal</h5><a href="#">Privacy policy</a><a href="#">Terms of engagement</a><a href="#">Disclosures</a></div>
+            </div>
+            <div class="foot-bot">© 2026 Nexa Consulting. A design demo by Kalyug Web Services.</div>
+        </div>
+    </footer>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        // Mobile nav
+        document.getElementById('navToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+        document.getElementById('navLinks').addEventListener('click', e => {
+            if (e.target.tagName === 'A') e.currentTarget.classList.remove('open');
+        });
+
+        // Animate the hero bars once they are on screen.
+        const bars = document.querySelectorAll('.bar i');
+        const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach(en => {
+                if (!en.isIntersecting) return;
+                en.target.style.width = en.target.dataset.w + '%';
+                obs.unobserve(en.target);
+            });
+        }, { threshold: 0.4 });
+        bars.forEach(b => io.observe(b));
+
+        // Contact form with inline validation.
+        const form = document.getElementById('bizForm');
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let ok = true;
+            form.querySelectorAll('.fld').forEach(fld => {
+                const input = fld.querySelector('input, textarea, select');
+                if (!input || !input.required) return;
+                const v = input.value.trim();
+                let bad = !v;
+                if (!bad && input.type === 'email') bad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+                fld.classList.toggle('bad', bad);
+                if (bad) ok = false;
+            });
+            if (!ok) return kwsToast('Please complete the highlighted fields.');
+            form.reset();
+            kwsToast('Thanks — a partner will reply within one business day.');
+        });
+        form.addEventListener('input', e => e.target.closest('.fld')?.classList.remove('bad'));
+    </script>
+</body>
+
+</html>

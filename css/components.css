@@ -1,0 +1,573 @@
+/* ======================================================
+   COMPONENTS — buttons, navbar, forms, modals, toast
+   ====================================================== */
+
+/* ------------------------------------------------------
+   BUTTONS
+   ------------------------------------------------------ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: all var(--ease);
+    background: transparent;
+    color: var(--text);
+    letter-spacing: 0.3px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--grad);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(var(--purple-rgb), 0.3);
+}
+
+.btn-primary:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 32px rgba(var(--purple-rgb), 0.6);
+}
+
+.btn-glow {
+    animation: pulse-glow 2.5s infinite;
+}
+
+.btn-outline {
+    border: 2px solid rgba(var(--purple-rgb), 0.6);
+    background: transparent;
+    color: var(--text);
+}
+
+.btn-outline:hover {
+    background: rgba(var(--purple-rgb), 0.15);
+    border-color: var(--purple);
+}
+
+.btn-sm {
+    padding: 8px 20px;
+    font-size: 0.85rem;
+}
+
+.btn-whatsapp {
+    background: var(--whatsapp);
+    color: #fff;
+    border: none;
+    gap: 10px;
+}
+
+.btn-whatsapp:hover {
+    background: var(--whatsapp-dark);
+    transform: scale(1.02);
+}
+
+.btn[disabled],
+.btn.is-busy {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+/* Dimmed but still clickable — clicking explains what is missing. */
+.btn.is-disabled {
+    opacity: 0.55;
+    box-shadow: none;
+    animation: none;
+}
+
+.btn.is-busy::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+/* ------------------------------------------------------
+   NAVBAR
+   ------------------------------------------------------ */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(var(--bg-rgb), 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(var(--purple-rgb), 0.15);
+    padding: 12px 0;
+    transition: background var(--ease), box-shadow var(--ease);
+}
+
+.navbar.scrolled {
+    background: rgba(var(--bg-rgb), 0.95);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.logo-text {
+    color: var(--text);
+}
+
+.logo-sub {
+    color: var(--purple);
+    font-weight: 500;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+.navbar-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color var(--ease);
+    position: relative;
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+    color: var(--text);
+}
+
+.navbar-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--grad-line);
+    border-radius: 4px;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Currency toggle — segmented control in the navbar. */
+.currency-switch {
+    display: inline-flex;
+    border: 1px solid rgba(var(--purple-rgb), 0.3);
+    border-radius: var(--radius-pill);
+    padding: 2px;
+    background: rgba(var(--panel-rgb), 0.6);
+}
+
+.currency-switch button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 13px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all var(--ease);
+    white-space: nowrap;
+}
+
+.currency-switch button:hover {
+    color: var(--text);
+}
+
+.currency-switch button.active {
+    background: var(--grad);
+    color: #fff;
+    box-shadow: 0 0 14px rgba(var(--purple-rgb), 0.35);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 4px;
+    transition: all var(--ease);
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ------------------------------------------------------
+   FORM FIELDS (shared by contact form and modals)
+   ------------------------------------------------------ */
+.field {
+    margin-bottom: 16px;
+}
+
+.field:last-of-type {
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea,
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(var(--purple-rgb), 0.2);
+    background: rgba(var(--bg-rgb), 0.6);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border var(--ease), box-shadow var(--ease);
+    outline: none;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    padding: 10px 14px;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus,
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(var(--purple-rgb), 0.12);
+}
+
+.contact-form select option,
+.modal-content select option {
+    background: var(--bg);
+}
+
+.contact-form textarea,
+.modal-content textarea {
+    resize: vertical;
+    min-height: 96px;
+}
+
+/* Inline validation. Only shows after a submit attempt. */
+.field-error {
+    display: none;
+    color: var(--danger);
+    font-size: 0.8rem;
+    margin-top: 6px;
+}
+
+.field.invalid .field-error {
+    display: block;
+}
+
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea {
+    border-color: var(--danger);
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-actions .btn {
+    width: 100%;
+}
+
+.form-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* ------------------------------------------------------
+   MODAL
+   ------------------------------------------------------ */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-content {
+    max-width: 520px;
+    width: 100%;
+    padding: 32px 28px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content.wide {
+    max-width: 860px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color var(--ease);
+    z-index: 2;
+}
+
+.modal-close:hover {
+    color: var(--text);
+}
+
+.modal-content h3 {
+    margin-bottom: 16px;
+    padding-right: 32px;
+    font-family: var(--font-display);
+}
+
+/* Live demo frame inside the demo modal. */
+.demo-preview-frame {
+    position: relative;
+    height: 320px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid rgba(var(--purple-rgb), 0.25);
+    background: linear-gradient(135deg, rgba(var(--purple-rgb), 0.2), rgba(var(--cyan-rgb), 0.2));
+    margin-bottom: 16px;
+}
+
+.demo-preview-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: #fff;
+}
+
+.demo-preview-frame .frame-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: opacity var(--ease);
+}
+
+.demo-preview-frame .frame-loading i {
+    font-size: 2rem;
+    color: var(--purple);
+}
+
+.demo-preview-frame.loaded .frame-loading {
+    opacity: 0;
+}
+
+.demo-preview-placeholder {
+    height: 140px;
+    background: linear-gradient(135deg, rgba(var(--purple-rgb), 0.2), rgba(var(--cyan-rgb), 0.2));
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+
+.demo-preview-placeholder i {
+    font-size: 2.4rem;
+    color: var(--purple);
+}
+
+.modal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 18px;
+}
+
+.modal-meta .tag {
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    background: rgba(var(--panel-rgb), 0.8);
+    border: 1px solid rgba(var(--purple-rgb), 0.2);
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+.modal-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(var(--purple-rgb), 0.15);
+}
+
+.modal-price-row .amount {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modal-btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modal-btn-row .btn {
+    flex: 1 1 160px;
+}
+
+/* ------------------------------------------------------
+   BACK TO TOP & TOAST
+   ------------------------------------------------------ */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--grad);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(var(--purple-rgb), 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all var(--ease);
+    z-index: 999;
+    pointer-events: none;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Floating WhatsApp launcher — always-available lead channel. */
+.wa-float {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--whatsapp);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+    z-index: 999;
+    transition: transform var(--ease);
+}
+
+.wa-float:hover {
+    transform: scale(1.08);
+}
+
+.toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    padding: 14px 32px;
+    border-radius: var(--radius-pill);
+    background: rgba(var(--panel-rgb), 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--purple-rgb), 0.3);
+    color: var(--text);
+    font-weight: 500;
+    max-width: calc(100vw - 40px);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.4s, transform 0.4s;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+    z-index: 3000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.error {
+    border-color: rgba(248, 113, 113, 0.5);
+}

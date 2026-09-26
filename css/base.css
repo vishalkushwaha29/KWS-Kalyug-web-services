@@ -1,0 +1,206 @@
+/* ======================================================
+   BASE — design tokens, reset, typography, layout shell
+   ====================================================== */
+
+:root {
+    /* Core palette. RGB triplets exist so alpha variants stay in sync. */
+    --bg: #050816;
+    --bg-rgb: 5, 8, 22;
+    --panel-rgb: 15, 23, 42;
+    --text: #F8FAFC;
+    --muted: #94A3B8;
+
+    --purple: #7C3AED;
+    --purple-rgb: 124, 58, 237;
+    --purple-light: #A855F7;
+    --cyan: #06B6D4;
+    --cyan-rgb: 6, 182, 212;
+
+    --green: #22C55E;
+    --amber: #FBBF24;
+    --whatsapp: #25D366;
+    --whatsapp-dark: #1ebe5c;
+    --ring-track: #1E293B;
+    --danger: #F87171;
+
+    --grad: linear-gradient(135deg, var(--purple), var(--cyan));
+    --grad-line: linear-gradient(90deg, var(--purple), var(--cyan));
+
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Space Grotesk', var(--font-body);
+
+    --radius-pill: 40px;
+    --radius-lg: 20px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --ease: 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Sticky navbar is ~64px; keep anchor targets clear of it. */
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Visible keyboard focus. The original had none. */
+:focus-visible {
+    outline: 2px solid var(--purple-light);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Locks background scroll while a modal is open. */
+body.no-scroll {
+    overflow: hidden;
+}
+
+/* ======================================================
+   GLASS & GRADIENTS
+   ====================================================== */
+.glass-card {
+    background: rgba(var(--panel-rgb), 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--purple-rgb), 0.25);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 48px rgba(var(--purple-rgb), 0.2);
+}
+
+/* Modal panels must not drift on hover — they are already centred. */
+.modal .glass-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-card);
+}
+
+.gradient-text {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ======================================================
+   SHARED ANIMATIONS
+   ====================================================== */
+@keyframes pulse-glow {
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(var(--purple-rgb), 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(var(--cyan-rgb), 0.5);
+    }
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.floating {
+    animation: float 5s ease-in-out infinite;
+}
+
+/* Scroll-reveal. JS adds .reveal on observe and .revealed on entry.
+   Applied only to in-flow cards — never to modal contents. */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Respect users who ask the OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}

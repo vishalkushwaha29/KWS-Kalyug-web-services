@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempo — Professional Landing Page Demo</title>
+    <meta name="description" content="Demo landing page by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root { --ink: #0F1115; --sub: #6B7280; --line: #E5E7EB; --bg: #FFFFFF; --soft: #F7F8FA; --brand: #FF5A36; --brand-soft: #FFEFEA; --ok: #16A34A; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.65; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        h1, h2, h3 { font-family: 'Bricolage Grotesque', sans-serif; line-height: 1.08; letter-spacing: -1px; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 14px 28px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; border: 1px solid transparent; cursor: pointer; transition: .2s; font-family: inherit; }
+        .btn-p { background: var(--brand); color: #fff; box-shadow: 0 8px 22px rgba(255,90,54,.28); }
+        .btn-p:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,90,54,.36); }
+        .btn-o { border-color: var(--line); background: #fff; } .btn-o:hover { border-color: var(--ink); }
+
+        /* Sticky offer bar */
+        .offer { background: var(--ink); color: #fff; text-align: center; padding: 9px 16px; font-size: 0.85rem; position: sticky; top: 0; z-index: 70; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+        .offer b { color: var(--brand); }
+        .clock { display: inline-flex; gap: 6px; font-variant-numeric: tabular-nums; }
+        .clock span { background: rgba(255,255,255,.12); border-radius: 5px; padding: 2px 7px; font-weight: 600; }
+
+        nav.top { border-bottom: 1px solid var(--line); }
+        nav.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .logo { font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 1.25rem; }
+        .logo i { color: var(--brand); }
+
+        .hero { padding: 66px 0 54px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; width: 620px; height: 620px; border-radius: 50%; background: var(--brand); opacity: .07; filter: blur(90px); top: -280px; left: 50%; transform: translateX(-50%); }
+        .hero .wrap { position: relative; }
+        .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--brand-soft); color: var(--brand); border-radius: 40px; padding: 6px 16px; font-size: 0.8rem; font-weight: 600; margin-bottom: 22px; }
+        .hero h1 { font-size: 3.7rem; max-width: 780px; margin: 0 auto; }
+        .hero h1 mark { background: linear-gradient(180deg, transparent 62%, rgba(255,90,54,.32) 62%); color: inherit; }
+        .hero p { color: var(--sub); font-size: 1.12rem; max-width: 540px; margin: 20px auto 30px; }
+        .hero-form { display: flex; gap: 10px; max-width: 440px; margin: 0 auto 14px; }
+        .hero-form input { flex: 1; padding: 14px 18px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 0.94rem; }
+        .hero-form input:focus { outline: 2px solid var(--brand); outline-offset: 1px; border-color: transparent; }
+        .micro { font-size: 0.8rem; color: var(--sub); }
+        .avatars { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 26px; font-size: 0.85rem; color: var(--sub); }
+        .stack { display: flex; }
+        .stack i { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; margin-left: -9px; display: grid; place-items: center; color: #fff; font-size: 0.66rem; font-style: normal; font-weight: 700; }
+
+        .shot { max-width: 880px; margin: 46px auto 0; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 30px 70px rgba(15,17,21,.12); overflow: hidden; background: #fff; }
+        .shot-bar { height: 34px; background: var(--soft); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 6px; padding: 0 14px; }
+        .shot-bar span { width: 9px; height: 9px; border-radius: 50%; background: #D8DCE2; }
+        .shot-body { display: grid; grid-template-columns: 150px 1fr; min-height: 260px; }
+        .shot-side { border-right: 1px solid var(--line); padding: 16px 14px; background: var(--soft); }
+        .shot-side div { height: 8px; border-radius: 5px; background: #E1E5EA; margin-bottom: 11px; }
+        .shot-side div:first-child { background: var(--brand); width: 60%; }
+        .shot-main { padding: 20px; }
+        .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+        .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+        .kpi b { display: block; font-family: 'Bricolage Grotesque'; font-size: 1.35rem; }
+        .kpi span { font-size: 0.7rem; color: var(--sub); }
+        .chart { display: flex; align-items: flex-end; gap: 8px; height: 110px; padding-top: 8px; }
+        .chart i { flex: 1; background: linear-gradient(180deg, var(--brand), #FFB39F); border-radius: 5px 5px 0 0; height: 0; transition: height .9s cubic-bezier(.2,.8,.3,1); }
+
+        section { padding: 72px 0; }
+        .soft { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .center { text-align: center; max-width: 620px; margin: 0 auto 44px; }
+        .center h2 { font-size: 2.5rem; }
+        .center p { color: var(--sub); margin-top: 12px; }
+
+        .feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .feat { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px 24px; }
+        .feat i.ic { width: 42px; height: 42px; border-radius: 11px; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; margin-bottom: 16px; }
+        .feat h3 { font-size: 1.1rem; margin-bottom: 7px; letter-spacing: -.3px; }
+        .feat p { color: var(--sub); font-size: 0.92rem; }
+
+        .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .quote { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+        .quote .st { color: #E0A800; font-size: 0.84rem; }
+        .quote p { font-size: 0.94rem; margin: 10px 0 16px; }
+        .quote .who { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+        .quote .who i { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-style: normal; font-weight: 700; font-size: 0.76rem; }
+        .quote .who b { display: block; } .quote .who span { color: var(--sub); font-size: 0.78rem; }
+
+        /* Pricing */
+        .toggle { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 32px; font-size: 0.9rem; }
+        .switch { width: 48px; height: 26px; border-radius: 20px; background: var(--line); border: 0; position: relative; cursor: pointer; transition: .22s; }
+        .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: .22s; }
+        .switch.on { background: var(--brand); } .switch.on::after { transform: translateX(22px); }
+        .save { background: var(--brand-soft); color: var(--brand); font-size: 0.74rem; font-weight: 700; border-radius: 20px; padding: 2px 10px; }
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
+        .plan { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px 24px; position: relative; }
+        .plan.best { border-color: var(--brand); box-shadow: 0 16px 40px rgba(255,90,54,.14); }
+        .plan .tag { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--brand); color: #fff; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 4px 14px; border-radius: 20px; }
+        .plan h3 { font-size: 1.16rem; }
+        .plan .cost { font-family: 'Bricolage Grotesque'; font-size: 2.5rem; margin: 10px 0 2px; }
+        .plan .cost span { font-size: 0.9rem; color: var(--sub); font-family: 'Inter'; font-weight: 400; }
+        .plan .note { font-size: 0.82rem; color: var(--sub); margin-bottom: 18px; }
+        .plan ul li { display: flex; gap: 9px; padding: 6px 0; font-size: 0.9rem; color: var(--sub); }
+        .plan ul li i { color: var(--ok); margin-top: 5px; font-size: 0.78rem; }
+        .plan .btn { width: 100%; margin-top: 20px; }
+
+        .faq { max-width: 720px; margin: 0 auto; }
+        .fq { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; overflow: hidden; background: #fff; }
+        .fq button { width: 100%; text-align: left; background: none; border: 0; padding: 17px 20px; font: inherit; font-weight: 600; display: flex; justify-content: space-between; gap: 14px; cursor: pointer; }
+        .fq .ans { max-height: 0; overflow: hidden; transition: max-height .34s ease; color: var(--sub); font-size: 0.92rem; padding: 0 20px; }
+        .fq.on .ans { padding-bottom: 18px; }
+        .fq.on button i { transform: rotate(180deg); }
+        .fq button i { transition: transform .3s; color: var(--sub); }
+
+        .final { text-align: center; background: var(--ink); color: #fff; }
+        .final h2 { font-size: 3rem; }
+        .final p { color: #9CA3AF; max-width: 440px; margin: 16px auto 28px; }
+        .final .hero-form input { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); color: #fff; }
+        .final .hero-form input::placeholder { color: #9CA3AF; }
+        .final .micro { color: #6B7280; }
+
+        footer { padding: 26px 0; font-size: 0.82rem; color: var(--sub); display: flex; justify-content: center; text-align: center; }
+
+        @media (max-width: 900px) { .feats, .quotes, .plans { grid-template-columns: 1fr; } .hero h1 { font-size: 2.5rem; } .final h2 { font-size: 2.1rem; } .shot-body { grid-template-columns: 1fr; } .shot-side { display: none; } }
+        @media (max-width: 520px) { .hero-form { flex-direction: column; } .hero h1 { font-size: 2rem; } .kpi-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body data-demo-id="landing" data-demo-name="Professional Landing Page" data-demo-price-inr="4999" data-demo-price-usd="199">
+
+    <div class="offer">
+        <span>Launch offer — <b>40% off</b> the first year. Ends in</span>
+        <span class="clock" id="clock"><span>00</span><span>00</span><span>00</span></span>
+    </div>
+
+    <nav class="top">
+        <div class="wrap">
+            <a href="#top" class="logo"><i class="fas fa-bolt"></i> Tempo</a>
+            <a href="#pricing" class="btn btn-p" style="padding:9px 20px">Start free trial</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="top">
+        <div class="wrap">
+            <span class="pill"><i class="fas fa-circle" style="font-size:6px"></i> New — automatic invoice reminders</span>
+            <h1>Get paid on time,<br>without <mark>chasing anyone</mark>.</h1>
+            <p>Tempo watches your invoices and follows up for you — politely, on schedule, in your voice. Freelancers using it get paid 11 days faster on average.</p>
+            <form class="hero-form" id="topForm">
+                <input type="email" placeholder="Your work email" required aria-label="Email">
+                <button class="btn btn-p" type="submit">Start free</button>
+            </form>
+            <p class="micro">14-day trial · No card required · Cancel in two clicks</p>
+            <div class="avatars">
+                <span class="stack">
+                    <i style="background:#FF5A36">AR</i><i style="background:#0891B2">KM</i>
+                    <i style="background:#7C3AED">SJ</i><i style="background:#16A34A">DN</i>
+                </span>
+                <span>Joined by <b id="joined">2,847</b> freelancers this year</span>
+            </div>
+
+            <div class="shot">
+                <div class="shot-bar"><span></span><span></span><span></span></div>
+                <div class="shot-body">
+                    <div class="shot-side"><div></div><div></div><div></div><div></div><div></div></div>
+                    <div class="shot-main">
+                        <div class="kpi-row">
+                            <div class="kpi"><b>₹4.2L</b><span>Outstanding</span></div>
+                            <div class="kpi"><b>11 days</b><span>Faster on average</span></div>
+                            <div class="kpi"><b>92%</b><span>Paid on time</span></div>
+                        </div>
+                        <div class="chart" id="chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="wrap">
+            <div class="center">
+                <h2>Three things, then it runs itself</h2>
+                <p>Set it up in an afternoon and stop thinking about it.</p>
+            </div>
+            <div class="feats">
+                <div class="feat">
+                    <i class="ic fas fa-file-invoice"></i>
+                    <h3>Invoice in 20 seconds</h3>
+                    <p>Templates that remember your clients, rates and GST. Send from your own domain so it doesn't land in spam.</p>
+                </div>
+                <div class="feat">
+                    <i class="ic fas fa-clock-rotate-left"></i>
+                    <h3>Reminders that aren't rude</h3>
+                    <p>Three escalating nudges, written to keep the relationship intact. You approve the tone once; Tempo does the rest.</p>
+                </div>
+                <div class="feat">
+                    <i class="ic fas fa-indian-rupee-sign"></i>
+                    <h3>Every payment method</h3>
+                    <p>UPI, bank transfer, card and international wire — with the fee shown before your client picks one.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="wrap">
+            <div class="center"><h2>People who stopped chasing</h2></div>
+            <div class="quotes">
+                <div class="quote">
+                    <div class="st">★★★★★</div>
+                    <p>"I had ₹2.8 lakh outstanding across nine clients. Six weeks later it was ₹40,000. I did nothing except set it up."</p>
+                    <div class="who"><i style="background:#FF5A36">DN</i><div><b>Deepa Nair</b><span>Illustrator, Kochi</span></div></div>
+                </div>
+                <div class="quote">
+                    <div class="st">★★★★★</div>
+                    <p>"The reminder copy is genuinely good. Two clients apologised to me, which has never happened before."</p>
+                    <div class="who"><i style="background:#0891B2">KM</i><div><b>Karan Mehta</b><span>Consultant, Pune</span></div></div>
+                </div>
+                <div class="quote">
+                    <div class="st">★★★★☆</div>
+                    <p>"Wish the mobile app existed. Everything else does exactly what the site says it does."</p>
+                    <div class="who"><i style="background:#7C3AED">SJ</i><div><b>Sana Jain</b><span>Copywriter, Delhi</span></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft" id="pricing">
+        <div class="wrap">
+            <div class="center"><h2>Straightforward pricing</h2><p>Launch offer applied automatically. No per-invoice fees, ever.</p></div>
+            <div class="toggle">
+                <span>Monthly</span>
+                <button class="switch on" id="switch" aria-label="Toggle billing period"></button>
+                <span>Yearly <b class="save">Save 40%</b></span>
+            </div>
+            <div class="plans" id="plans"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="wrap">
+            <div class="center"><h2>Questions</h2></div>
+            <div class="faq" id="faq"></div>
+        </div>
+    </section>
+
+    <section class="final">
+        <div class="wrap">
+            <h2>Stop writing<br>"just following up".</h2>
+            <p>Two minutes to set up. Fourteen days free. Then from ₹299 a month billed yearly, or ₹499 monthly.</p>
+            <form class="hero-form" id="botForm">
+                <input type="email" placeholder="Your work email" required aria-label="Email">
+                <button class="btn btn-p" type="submit">Start free trial</button>
+            </form>
+            <p class="micro">No card required</p>
+        </div>
+    </section>
+
+    <footer>© 2026 Tempo · A design demo by Kalyug Web Services</footer>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        /* ---------- Countdown to midnight ---------- */
+        const clock = document.getElementById('clock');
+        function tick() {
+            const now = new Date();
+            const end = new Date(now); end.setHours(24, 0, 0, 0);
+            let s = Math.max(0, Math.floor((end - now) / 1000));
+            const h = String(Math.floor(s / 3600)).padStart(2, '0');
+            const m = String(Math.floor(s % 3600 / 60)).padStart(2, '0');
+            const sec = String(s % 60).padStart(2, '0');
+            clock.innerHTML = `<span>${h}h</span><span>${m}m</span><span>${sec}s</span>`;
+        }
+        tick(); setInterval(tick, 1000);
+
+        /* ---------- Chart + counter animate on view ---------- */
+        const heights = [38, 52, 44, 66, 58, 78, 71, 92];
+        document.getElementById('chart').innerHTML = heights.map(() => '<i></i>').join('');
+        const bars = document.querySelectorAll('.chart i');
+        new IntersectionObserver((en, obs) => {
+            en.forEach(e => {
+                if (!e.isIntersecting) return;
+                bars.forEach((b, i) => setTimeout(() => { b.style.height = heights[i] + '%'; }, i * 70));
+                obs.disconnect();
+            });
+        }, { threshold: .3 }).observe(document.getElementById('chart'));
+
+        const joined = document.getElementById('joined');
+        new IntersectionObserver((en, obs) => {
+            en.forEach(e => {
+                if (!e.isIntersecting) return;
+                let n = 0; const target = 2847;
+                const step = () => {
+                    n = Math.min(target, n + Math.ceil(target / 45));
+                    joined.textContent = n.toLocaleString('en-IN');
+                    if (n < target) requestAnimationFrame(step);
+                };
+                step(); obs.disconnect();
+            });
+        }, { threshold: .5 }).observe(joined);
+
+        /* ---------- Pricing ---------- */
+        const plans = [
+            { n: 'Solo', m: 499, note: 'For one freelancer', f: ['Up to 20 invoices/month', 'Automatic reminders', 'UPI & bank transfer', 'Email support'] },
+            { n: 'Studio', m: 1299, note: 'For small teams', best: true, f: ['Unlimited invoices', 'Up to 5 team members', 'Custom reminder sequences', 'International payments', 'Priority support'] },
+            { n: 'Agency', m: 2999, note: 'For agencies', f: ['Everything in Studio', 'Unlimited members', 'Client portal', 'API access', 'Dedicated manager'] }
+        ];
+        let yearly = true;
+        function drawPlans() {
+            document.getElementById('plans').innerHTML = plans.map((p, i) => {
+                const price = yearly ? Math.round(p.m * 0.6) : p.m;
+                return `
+                <div class="plan ${p.best ? 'best' : ''}">
+                    ${p.best ? '<span class="tag">Most popular</span>' : ''}
+                    <h3>${p.n}</h3>
+                    <div class="cost">${kwsMoney(price)}<span>/mo</span></div>
+                    <p class="note">${p.note}${yearly ? ' · billed yearly' : ''}</p>
+                    <ul>${p.f.map(f => `<li><i class="fas fa-check"></i>${f}</li>`).join('')}</ul>
+                    <button class="btn ${p.best ? 'btn-p' : 'btn-o'}" data-plan="${i}">Start free trial</button>
+                </div>`;
+            }).join('');
+        }
+        document.getElementById('switch').addEventListener('click', e => {
+            yearly = !yearly;
+            e.currentTarget.classList.toggle('on', yearly);
+            drawPlans();
+        });
+        document.getElementById('plans').addEventListener('click', e => {
+            const b = e.target.closest('[data-plan]');
+            if (b) kwsToast(`${plans[b.dataset.plan].n} trial started — check your inbox.`);
+        });
+        drawPlans();
+
+        /* ---------- FAQ ---------- */
+        const faqs = [
+            ['Do my clients need a Tempo account?', 'No. They receive a normal email with a payment link. Nothing to sign up for, nothing to install.'],
+            ['What happens after the free trial?', 'Nothing automatic — we ask before charging anything. If you do nothing, the account pauses and your data stays put for 90 days.'],
+            ['Can I edit the reminder wording?', 'Yes, every message. Most people tweak the first one and leave the rest alone.'],
+            ['Is GST handled?', 'Yes. GSTIN, HSN/SAC codes and the correct CGST/SGST or IGST split based on your client\'s state.'],
+            ['What if a client pays partially?', 'Log the part payment and Tempo recalculates the balance and adjusts the reminder schedule automatically.']
+        ];
+        const faqBox = document.getElementById('faq');
+        faqBox.innerHTML = faqs.map(([q, a]) => `
+            <div class="fq">
+                <button aria-expanded="false">${q} <i class="fas fa-chevron-down"></i></button>
+                <div class="ans">${a}</div>
+            </div>`).join('');
+        faqBox.addEventListener('click', e => {
+            const b = e.target.closest('button');
+            if (!b) return;
+            const item = b.parentElement;
+            const open = item.classList.contains('on');
+            faqBox.querySelectorAll('.fq').forEach(f => {
+                f.classList.remove('on');
+                f.querySelector('button').setAttribute('aria-expanded', 'false');
+                f.querySelector('.ans').style.maxHeight = null;
+            });
+            if (!open) {
+                item.classList.add('on');
+                b.setAttribute('aria-expanded', 'true');
+                const ans = item.querySelector('.ans');
+                ans.style.maxHeight = ans.scrollHeight + 30 + 'px';
+            }
+        });
+
+        /* ---------- Signup forms ---------- */
+        ['topForm', 'botForm'].forEach(id => {
+            document.getElementById(id).addEventListener('submit', e => {
+                e.preventDefault();
+                const v = e.target.querySelector('input').value.trim();
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return kwsToast('Please enter a valid email address.');
+                e.target.reset();
+                kwsToast('Trial created — check your inbox for the login link.');
+            });
+        });
+    </script>
+</body>
+
+</html>

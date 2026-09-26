@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom &amp; Clay — E-Commerce Store Demo</title>
+    <meta name="description" content="Demo e-commerce website by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root { --ink: #1C1B19; --sub: #77736C; --line: #E8E4DE; --bg: #FCFBF9; --accent: #B3541E; --accent-soft: #FBF0E7; --ok: #2E7D4F; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid transparent; cursor: pointer; transition: .2s; font-family: inherit; }
+        .btn-p { background: var(--ink); color: #fff; } .btn-p:hover { background: var(--accent); }
+        .btn-o { border-color: var(--line); background: #fff; } .btn-o:hover { border-color: var(--ink); }
+        .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+        .promo { background: var(--ink); color: #F5F1EA; text-align: center; font-size: 0.82rem; padding: 8px; letter-spacing: .3px; }
+        header { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 60; }
+        header .wrap { display: flex; align-items: center; gap: 22px; height: 74px; }
+        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -.5px; }
+        .logo i { color: var(--accent); }
+        .shopnav { display: flex; gap: 22px; font-size: 0.9rem; color: var(--sub); margin-left: 10px; }
+        .shopnav a:hover { color: var(--accent); }
+        .searchbox { margin-left: auto; position: relative; }
+        .searchbox input { width: 240px; padding: 9px 14px 9px 36px; border: 1px solid var(--line); border-radius: 30px; font: inherit; font-size: 0.88rem; background: var(--bg); }
+        .searchbox i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--sub); font-size: 0.85rem; }
+        .cartbtn { position: relative; background: none; border: 0; font-size: 1.15rem; cursor: pointer; padding: 6px; }
+        .cartbtn b { position: absolute; top: -2px; right: -6px; background: var(--accent); color: #fff; font-size: 0.66rem; min-width: 17px; height: 17px; border-radius: 12px; display: grid; place-items: center; padding: 0 4px; }
+
+        .hero { background: var(--accent-soft); padding: 60px 0; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .hero h1 { font-size: 3rem; line-height: 1.1; letter-spacing: -1px; }
+        .hero p { color: var(--sub); max-width: 420px; margin: 14px 0 24px; }
+        .hero-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .tile { aspect-ratio: 1; border-radius: 14px; display: grid; place-items: center; color: #fff; font-size: 2.2rem; }
+
+        section { padding: 54px 0; }
+        .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+        .bar h2 { font-size: 1.7rem; }
+        .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filters button, .sortsel { border: 1px solid var(--line); background: #fff; border-radius: 30px; padding: 7px 16px; font-size: 0.84rem; color: var(--sub); cursor: pointer; font-family: inherit; transition: .2s; }
+        .filters button.on, .filters button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+        .sortsel { padding-right: 12px; }
+
+        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 22px; }
+        .prod { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: .24s; }
+        .prod:hover { transform: translateY(-5px); box-shadow: 0 16px 38px rgba(28,27,25,.09); }
+        .prod .pic { aspect-ratio: 1; display: grid; place-items: center; color: #fff; font-size: 2.6rem; position: relative; cursor: pointer; }
+        .prod .flag { position: absolute; top: 10px; left: 10px; background: #fff; color: var(--ink); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; padding: 3px 9px; border-radius: 20px; }
+        .prod .flag.out { background: var(--ink); color: #fff; }
+        .prod .info { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
+        .prod .cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--sub); }
+        .prod h3 { font-size: 0.98rem; margin: 3px 0 4px; }
+        .stars { color: #E0A800; font-size: 0.76rem; margin-bottom: 8px; }
+        .stars span { color: var(--sub); margin-left: 4px; }
+        .pricerow { display: flex; align-items: baseline; gap: 8px; margin-top: auto; margin-bottom: 12px; }
+        .pricerow b { font-size: 1.1rem; }
+        .pricerow s { color: var(--sub); font-size: 0.85rem; }
+        .empty { grid-column: 1/-1; text-align: center; color: var(--sub); padding: 50px; }
+
+        .trust { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #fff; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+        .trust-grid i { color: var(--accent); font-size: 1.4rem; margin-bottom: 8px; }
+        .trust-grid b { display: block; font-size: 0.92rem; }
+        .trust-grid span { font-size: 0.8rem; color: var(--sub); }
+
+        /* Cart drawer */
+        .scrim { position: fixed; inset: 0; background: rgba(28,27,25,.5); opacity: 0; pointer-events: none; transition: .28s; z-index: 200; }
+        .scrim.on { opacity: 1; pointer-events: auto; }
+        .cart { position: fixed; top: 0; right: 0; bottom: 0; width: 390px; max-width: 100%; background: #fff; z-index: 300; transform: translateX(100%); transition: transform .3s cubic-bezier(.3,.8,.3,1); display: flex; flex-direction: column; }
+        .cart.on { transform: none; }
+        .cart-top { padding: 20px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+        .cart-top h3 { font-size: 1.1rem; }
+        .cart-top button { background: none; border: 0; font-size: 1.4rem; cursor: pointer; }
+        .cart-items { flex: 1; overflow-y: auto; padding: 8px 22px; }
+        .ci { display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: center; }
+        .ci .pic { width: 56px; height: 56px; border-radius: 8px; display: grid; place-items: center; color: #fff; }
+        .ci h4 { font-size: 0.9rem; }
+        .ci .qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 20px; margin-top: 6px; }
+        .ci .qty button { width: 24px; height: 24px; border: 0; background: none; cursor: pointer; color: var(--sub); }
+        .ci .qty span { font-size: 0.82rem; min-width: 20px; text-align: center; }
+        .ci .rm { background: none; border: 0; color: var(--sub); cursor: pointer; font-size: 0.78rem; display: block; margin-top: 4px; }
+        .ci .rm:hover { color: #C0392B; }
+        .cart-empty { text-align: center; color: var(--sub); padding: 60px 20px; }
+        .cart-foot { padding: 20px 22px; border-top: 1px solid var(--line); }
+        .line { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 4px 0; color: var(--sub); }
+        .line.total { color: var(--ink); font-weight: 700; font-size: 1.12rem; padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--line); }
+        .ship-note { font-size: 0.78rem; color: var(--ok); margin: 8px 0; }
+
+        /* Quick view + checkout */
+        .modal { position: fixed; inset: 0; background: rgba(28,27,25,.6); display: none; align-items: center; justify-content: center; z-index: 400; padding: 20px; }
+        .modal.on { display: flex; }
+        .modal-in { background: #fff; border-radius: 16px; max-width: 620px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+        .qv { display: grid; grid-template-columns: 1fr 1fr; }
+        .qv .pic { aspect-ratio: 1; display: grid; place-items: center; color: #fff; font-size: 4rem; border-radius: 16px 0 0 16px; }
+        .qv .body { padding: 26px; }
+        .x { position: absolute; top: 12px; right: 14px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(255,255,255,.9); font-size: 1.2rem; cursor: pointer; z-index: 2; }
+        .swatches { display: flex; gap: 8px; margin: 12px 0 18px; }
+        .swatch { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+        .swatch.on { border-color: var(--ink); }
+        .co-body { padding: 28px; }
+        .co-body h3 { margin-bottom: 4px; }
+        .co-body p.sub { color: var(--sub); font-size: 0.9rem; margin-bottom: 18px; }
+        .co-body input, .co-body select { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 0.9rem; margin-bottom: 12px; }
+        .r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .pay { display: grid; gap: 10px; margin: 6px 0 16px; }
+        .pay label { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 8px; padding: 11px 14px; font-size: 0.9rem; cursor: pointer; }
+        .pay label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+        .done { text-align: center; padding: 44px 28px; }
+        .done .tick { width: 62px; height: 62px; border-radius: 50%; background: var(--ok); color: #fff; display: grid; place-items: center; font-size: 1.6rem; margin: 0 auto 16px; }
+
+        footer { background: var(--ink); color: #B8B2A8; padding: 46px 0 22px; font-size: 0.88rem; }
+        .fg { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 26px; }
+        footer h5 { color: #fff; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        footer a { display: block; padding: 3px 0; } footer a:hover { color: #fff; }
+        .fb { border-top: 1px solid rgba(255,255,255,.12); padding-top: 16px; font-size: 0.78rem; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+        @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } .trust-grid { grid-template-columns: 1fr 1fr; } .fg { grid-template-columns: 1fr 1fr; } .shopnav { display: none; } .qv { grid-template-columns: 1fr; } .qv .pic { border-radius: 16px 16px 0 0; aspect-ratio: 16/9; } }
+        @media (max-width: 620px) { .searchbox input { width: 130px; } .fg { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body data-demo-id="ecommerce" data-demo-name="E-Commerce Store" data-demo-price-inr="19999" data-demo-price-usd="799">
+
+    <div class="promo">Free shipping on orders over ₹1,499 · Handmade in Jaipur &amp; Kutch</div>
+
+    <header>
+        <div class="wrap">
+            <a href="#top" class="logo"><i class="fas fa-mug-hot"></i> Loom &amp; Clay</a>
+            <nav class="shopnav"><a href="#shop">Shop</a><a href="#shop">New in</a><a href="#shop">Sale</a><a href="#">Journal</a></nav>
+            <div class="searchbox">
+                <i class="fas fa-magnifying-glass"></i>
+                <input id="q" type="search" placeholder="Search products…" aria-label="Search products">
+            </div>
+            <button class="cartbtn" id="cartBtn" aria-label="Open cart">
+                <i class="fas fa-bag-shopping"></i><b id="cartCount">0</b>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="wrap hero-grid">
+            <div>
+                <h1>Things made slowly,<br>by people with names.</h1>
+                <p>Handmade ceramics, block-printed textiles and brass for the home. Every piece lists the maker and the town it came from.</p>
+                <a href="#shop" class="btn btn-p">Shop the collection</a>
+            </div>
+            <div class="hero-tiles">
+                <div class="tile" style="background:linear-gradient(140deg,#B3541E,#1C1B19)"><i class="fas fa-mug-saucer"></i></div>
+                <div class="tile" style="background:linear-gradient(140deg,#2E7D4F,#1C1B19)"><i class="fas fa-shirt"></i></div>
+                <div class="tile" style="background:linear-gradient(140deg,#8E6C1F,#1C1B19)"><i class="fas fa-bowl-food"></i></div>
+                <div class="tile" style="background:linear-gradient(140deg,#4C5BA8,#1C1B19)"><i class="fas fa-lightbulb"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop">
+        <div class="wrap">
+            <div class="bar">
+                <h2>All products</h2>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                    <div class="filters" id="filters"></div>
+                    <select class="sortsel" id="sort">
+                        <option value="featured">Featured</option>
+                        <option value="low">Price: low to high</option>
+                        <option value="high">Price: high to low</option>
+                        <option value="rating">Top rated</option>
+                    </select>
+                </div>
+            </div>
+            <div class="products" id="products"></div>
+        </div>
+    </section>
+
+    <section class="trust">
+        <div class="wrap trust-grid">
+            <div><i class="fas fa-truck-fast"></i><b>Free over ₹1,499</b><span>Dispatched in 48 hours</span></div>
+            <div><i class="fas fa-rotate-left"></i><b>14-day returns</b><span>No questions asked</span></div>
+            <div><i class="fas fa-hand-holding-heart"></i><b>Maker-direct</b><span>72% goes to the artisan</span></div>
+            <div><i class="fas fa-shield-halved"></i><b>Secure checkout</b><span>UPI, cards, netbanking</span></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="fg">
+                <div>
+                    <div class="logo" style="color:#fff;margin-bottom:10px"><i class="fas fa-mug-hot"></i> Loom &amp; Clay</div>
+                    <p style="max-width:280px">A small shop for handmade Indian homeware. Founded 2021, Jaipur.</p>
+                </div>
+                <div><h5>Shop</h5><a href="#shop">Ceramics</a><a href="#shop">Textiles</a><a href="#shop">Brass</a><a href="#shop">Gift sets</a></div>
+                <div><h5>Help</h5><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Track order</a><a href="#">Contact</a></div>
+                <div><h5>About</h5><a href="#">Our makers</a><a href="#">Sustainability</a><a href="#">Journal</a><a href="#">Stockists</a></div>
+            </div>
+            <div class="fb">
+                <span>© 2026 Loom &amp; Clay. A design demo by Kalyug Web Services.</span>
+                <span><i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fas fa-indian-rupee-sign"></i> UPI</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart -->
+    <div class="scrim" id="scrim"></div>
+    <aside class="cart" id="cart" aria-label="Shopping cart">
+        <div class="cart-top">
+            <h3>Your bag (<span id="cartQty">0</span>)</h3>
+            <button id="cartClose" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-foot">
+            <div class="line"><span>Subtotal</span><span id="sub">₹0</span></div>
+            <div class="line"><span>Shipping</span><span id="ship">—</span></div>
+            <p class="ship-note" id="shipNote"></p>
+            <div class="line total"><span>Total</span><span id="tot">₹0</span></div>
+            <button class="btn btn-p" id="checkoutBtn" style="width:100%;margin-top:14px" disabled>Checkout</button>
+        </div>
+    </aside>
+
+    <!-- Quick view -->
+    <div class="modal" id="qvModal">
+        <div class="modal-in">
+            <button class="x" data-x aria-label="Close">&times;</button>
+            <div class="qv">
+                <div class="pic" id="qvPic"></div>
+                <div class="body">
+                    <div class="cat" id="qvCat" style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--sub)"></div>
+                    <h3 id="qvName" style="font-size:1.35rem;margin:4px 0 6px"></h3>
+                    <div class="stars" id="qvStars"></div>
+                    <div class="pricerow"><b id="qvPrice" style="font-size:1.3rem"></b><s id="qvWas"></s></div>
+                    <p id="qvDesc" style="color:var(--sub);font-size:0.9rem"></p>
+                    <div style="font-size:0.8rem;color:var(--sub);margin-top:10px">Finish</div>
+                    <div class="swatches" id="qvSwatches"></div>
+                    <button class="btn btn-p" id="qvAdd" style="width:100%">Add to bag</button>
+                    <p style="font-size:0.78rem;color:var(--sub);margin-top:12px" id="qvMaker"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout -->
+    <div class="modal" id="coModal">
+        <div class="modal-in" style="max-width:500px">
+            <button class="x" data-x aria-label="Close">&times;</button>
+            <div class="co-body" id="coBody"></div>
+        </div>
+    </div>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        /* ---------- Catalogue ---------- */
+        const products = [
+            { id: 'p1', n: 'Stoneware mug, ribbed', c: 'Ceramics', p: 690, was: 890, r: 4.8, rc: 126, i: 'fa-mug-saucer', g: 'linear-gradient(140deg,#B3541E,#1C1B19)', m: 'Made by Rekha Sharma, Jaipur', d: 'Wheel-thrown, 280 ml, dishwasher safe. Slight variation between pieces is the point.', sw: ['#B3541E', '#4C5BA8', '#2E7D4F'] },
+            { id: 'p2', n: 'Block-print table runner', c: 'Textiles', p: 1290, r: 4.9, rc: 64, i: 'fa-scroll', g: 'linear-gradient(140deg,#2E7D4F,#1C1B19)', m: 'Made by the Bagru cooperative', d: 'Hand block-printed on 100% cotton with natural indigo. 180 × 40 cm.', sw: ['#2E7D4F', '#1C1B19', '#8E6C1F'] },
+            { id: 'p3', n: 'Brass oil lamp, small', c: 'Brass', p: 1450, r: 4.7, rc: 41, i: 'fa-fire', g: 'linear-gradient(140deg,#8E6C1F,#1C1B19)', m: 'Made by Ganesh Metalworks, Moradabad', d: 'Cast brass with a hand-polished finish that will patina beautifully.', sw: ['#8E6C1F', '#B3541E'] },
+            { id: 'p4', n: 'Serving bowl, speckled', c: 'Ceramics', p: 1150, was: 1390, r: 4.6, rc: 88, i: 'fa-bowl-food', g: 'linear-gradient(140deg,#6B7280,#1C1B19)', m: 'Made by Rekha Sharma, Jaipur', d: '24 cm across, oven safe to 220°C. The speckle comes from iron in the clay body.', sw: ['#6B7280', '#B3541E'] },
+            { id: 'p5', n: 'Kantha throw, indigo', c: 'Textiles', p: 3200, r: 5.0, rc: 29, i: 'fa-shirt', g: 'linear-gradient(140deg,#4C5BA8,#1C1B19)', m: 'Made in Nadia, West Bengal', d: 'Six layers of reclaimed cotton, hand-quilted over roughly forty hours.', sw: ['#4C5BA8', '#2E7D4F'] },
+            { id: 'p6', n: 'Brass candle stand, pair', c: 'Brass', p: 2100, r: 4.5, rc: 37, i: 'fa-lightbulb', g: 'linear-gradient(140deg,#A16207,#1C1B19)', m: 'Made by Ganesh Metalworks, Moradabad', d: 'Turned brass, 18 cm and 24 cm. Fits standard dinner candles.', sw: ['#A16207'] },
+            { id: 'p7', n: 'Everyday plate, set of 4', c: 'Ceramics', p: 2490, was: 2990, r: 4.8, rc: 152, i: 'fa-plate-wheat', g: 'linear-gradient(140deg,#7C3AED,#1C1B19)', m: 'Made by Rekha Sharma, Jaipur', d: '26 cm dinner plates in a soft matte glaze. Stack neatly, survive children.', sw: ['#7C3AED', '#B3541E', '#6B7280'] },
+            { id: 'p8', n: 'Cotton napkins, set of 6', c: 'Textiles', p: 890, r: 4.4, rc: 73, i: 'fa-layer-group', g: 'linear-gradient(140deg,#BE185D,#1C1B19)', m: 'Made by the Bagru cooperative', d: 'Softens with every wash. 40 × 40 cm, hemmed by hand.', sw: ['#BE185D', '#2E7D4F', '#8E6C1F'], out: true },
+            { id: 'p9', n: 'Gift set — tea for two', c: 'Gift sets', p: 2790, was: 3200, r: 4.9, rc: 58, i: 'fa-gift', g: 'linear-gradient(140deg,#0E7C66,#1C1B19)', m: 'Assembled in Jaipur', d: 'Two ribbed mugs, a brass strainer and 100 g of Nilgiri leaf, boxed.', sw: ['#0E7C66'] }
+        ];
+
+        const STORE = 'loomclay.cart.v1';
+        let cart = {};
+        try { cart = JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { cart = {}; }
+        const save = () => { try { localStorage.setItem(STORE, JSON.stringify(cart)); } catch (e) {} };
+        const find = id => products.find(p => p.id === id);
+
+        /* ---------- Grid ---------- */
+        const cats = ['All', ...new Set(products.map(p => p.c))];
+        const filters = document.getElementById('filters');
+        filters.innerHTML = cats.map((c, i) => `<button class="${i ? '' : 'on'}" data-c="${c}">${c}</button>`).join('');
+        let cat = 'All', term = '', sort = 'featured';
+
+        function stars(r) {
+            const full = Math.round(r);
+            return '★'.repeat(full) + '☆'.repeat(5 - full);
+        }
+
+        function visible() {
+            let list = products.filter(p =>
+                (cat === 'All' || p.c === cat) &&
+                (!term || (p.n + ' ' + p.c + ' ' + p.m).toLowerCase().includes(term))
+            );
+            if (sort === 'low') list = [...list].sort((a, b) => a.p - b.p);
+            if (sort === 'high') list = [...list].sort((a, b) => b.p - a.p);
+            if (sort === 'rating') list = [...list].sort((a, b) => b.r - a.r);
+            return list;
+        }
+
+        function drawProducts() {
+            const list = visible();
+            const box = document.getElementById('products');
+            if (!list.length) {
+                box.innerHTML = `<p class="empty">Nothing matches “${term}”. Try a different word.</p>`;
+                return;
+            }
+            box.innerHTML = list.map(p => `
+                <article class="prod">
+                    <div class="pic" style="background:${p.g}" data-qv="${p.id}">
+                        <i class="fas ${p.i}"></i>
+                        ${p.out ? '<span class="flag out">Sold out</span>' : p.was ? '<span class="flag">Sale</span>' : ''}
+                    </div>
+                    <div class="info">
+                        <div class="cat">${p.c}</div>
+                        <h3>${p.n}</h3>
+                        <div class="stars">${stars(p.r)}<span>${p.r} (${p.rc})</span></div>
+                        <div class="pricerow"><b>${kwsMoney(p.p)}</b>${p.was ? `<s>${kwsMoney(p.was)}</s>` : ''}</div>
+                        <button class="btn ${p.out ? 'btn-o' : 'btn-p'}" data-add="${p.id}" ${p.out ? 'disabled' : ''}>
+                            ${p.out ? 'Sold out' : 'Add to bag'}
+                        </button>
+                    </div>
+                </article>`).join('');
+        }
+
+        filters.addEventListener('click', e => {
+            const b = e.target.closest('button');
+            if (!b) return;
+            filters.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+            b.classList.add('on');
+            cat = b.dataset.c;
+            drawProducts();
+        });
+        document.getElementById('sort').addEventListener('change', e => { sort = e.target.value; drawProducts(); });
+        document.getElementById('q').addEventListener('input', e => { term = e.target.value.trim().toLowerCase(); drawProducts(); });
+
+        document.getElementById('products').addEventListener('click', e => {
+            const add = e.target.closest('[data-add]');
+            if (add) return addToCart(add.dataset.add);
+            const qv = e.target.closest('[data-qv]');
+            if (qv) openQv(qv.dataset.qv);
+        });
+
+        /* ---------- Cart ---------- */
+        function addToCart(id, qty = 1) {
+            const p = find(id);
+            if (!p || p.out) return;
+            cart[id] = (cart[id] || 0) + qty;
+            save(); drawCart();
+            kwsToast(`${p.n} added to your bag.`);
+            openCart();
+        }
+        function setQty(id, q) {
+            if (q <= 0) delete cart[id];
+            else cart[id] = q;
+            save(); drawCart();
+        }
+        function cartLines() { return Object.keys(cart).map(id => ({ p: find(id), q: cart[id] })).filter(l => l.p); }
+        function subtotal() { return cartLines().reduce((s, l) => s + l.p.p * l.q, 0); }
+        function shipping() { const s = subtotal(); return s === 0 || s >= 1499 ? 0 : 99; }
+
+        function drawCart() {
+            const lines = cartLines();
+            const count = lines.reduce((s, l) => s + l.q, 0);
+            document.getElementById('cartCount').textContent = count;
+            document.getElementById('cartQty').textContent = count;
+
+            const box = document.getElementById('cartItems');
+            box.innerHTML = lines.length ? lines.map(l => `
+                <div class="ci">
+                    <div class="pic" style="background:${l.p.g}"><i class="fas ${l.p.i}"></i></div>
+                    <div>
+                        <h4>${l.p.n}</h4>
+                        <div class="qty">
+                            <button data-q="${l.p.id}" data-d="-1" aria-label="Decrease">−</button>
+                            <span>${l.q}</span>
+                            <button data-q="${l.p.id}" data-d="1" aria-label="Increase">+</button>
+                        </div>
+                        <button class="rm" data-rm="${l.p.id}">Remove</button>
+                    </div>
+                    <b>${kwsMoney(l.p.p * l.q)}</b>
+                </div>`).join('')
+                : '<div class="cart-empty"><i class="fas fa-bag-shopping" style="font-size:2rem;opacity:.35"></i><p style="margin-top:12px">Your bag is empty.</p></div>';
+
+            const s = subtotal(), sh = shipping();
+            document.getElementById('sub').textContent = kwsMoney(s);
+            document.getElementById('ship').textContent = s === 0 ? '—' : (sh === 0 ? 'Free' : kwsMoney(sh));
+            document.getElementById('tot').textContent = kwsMoney(s + sh);
+            document.getElementById('shipNote').textContent =
+                s > 0 && s < 1499 ? `Add ${kwsMoney(1499 - s)} more for free shipping.` : '';
+            document.getElementById('checkoutBtn').disabled = lines.length === 0;
+        }
+
+        document.getElementById('cartItems').addEventListener('click', e => {
+            const q = e.target.closest('[data-q]');
+            if (q) return setQty(q.dataset.q, cart[q.dataset.q] + Number(q.dataset.d));
+            const rm = e.target.closest('[data-rm]');
+            if (rm) { setQty(rm.dataset.rm, 0); kwsToast('Removed from bag.'); }
+        });
+
+        const scrim = document.getElementById('scrim'), cartEl = document.getElementById('cart');
+        function openCart() { cartEl.classList.add('on'); scrim.classList.add('on'); }
+        function closeCart() { cartEl.classList.remove('on'); scrim.classList.remove('on'); }
+        document.getElementById('cartBtn').addEventListener('click', openCart);
+        document.getElementById('cartClose').addEventListener('click', closeCart);
+        scrim.addEventListener('click', closeCart);
+
+        /* ---------- Quick view ---------- */
+        const qvModal = document.getElementById('qvModal');
+        let qvId = null;
+        function openQv(id) {
+            const p = find(id); qvId = id;
+            document.getElementById('qvPic').style.background = p.g;
+            document.getElementById('qvPic').innerHTML = `<i class="fas ${p.i}"></i>`;
+            document.getElementById('qvCat').textContent = p.c;
+            document.getElementById('qvName').textContent = p.n;
+            document.getElementById('qvStars').innerHTML = `${stars(p.r)}<span>${p.r} (${p.rc} reviews)</span>`;
+            document.getElementById('qvPrice').textContent = kwsMoney(p.p);
+            document.getElementById('qvWas').textContent = p.was ? kwsMoney(p.was) : '';
+            document.getElementById('qvDesc').textContent = p.d;
+            document.getElementById('qvMaker').textContent = p.m;
+            document.getElementById('qvSwatches').innerHTML = p.sw
+                .map((c, i) => `<span class="swatch ${i ? '' : 'on'}" style="background:${c}" data-sw></span>`).join('');
+            const add = document.getElementById('qvAdd');
+            add.disabled = !!p.out;
+            add.textContent = p.out ? 'Sold out' : 'Add to bag';
+            qvModal.classList.add('on');
+        }
+        document.getElementById('qvSwatches').addEventListener('click', e => {
+            const s = e.target.closest('[data-sw]');
+            if (!s) return;
+            s.parentElement.querySelectorAll('.swatch').forEach(x => x.classList.remove('on'));
+            s.classList.add('on');
+        });
+        document.getElementById('qvAdd').addEventListener('click', () => {
+            qvModal.classList.remove('on');
+            addToCart(qvId);
+        });
+
+        /* ---------- Checkout ---------- */
+        const coModal = document.getElementById('coModal');
+        function checkoutForm() {
+            const s = subtotal(), sh = shipping();
+            document.getElementById('coBody').innerHTML = `
+                <h3>Checkout</h3>
+                <p class="sub">${cartLines().reduce((a, l) => a + l.q, 0)} item(s) · ${kwsMoney(s + sh)} total</p>
+                <form id="coForm">
+                    <div class="r2"><input required placeholder="First name"><input required placeholder="Last name"></div>
+                    <input required type="email" placeholder="Email">
+                    <input required type="tel" placeholder="Phone">
+                    <input required placeholder="Address">
+                    <div class="r2"><input required placeholder="City"><input required placeholder="PIN code" inputmode="numeric"></div>
+                    <div class="pay">
+                        <label><input type="radio" name="pay" value="UPI" checked> <i class="fas fa-indian-rupee-sign"></i> UPI</label>
+                        <label><input type="radio" name="pay" value="Card"> <i class="fas fa-credit-card"></i> Credit / debit card</label>
+                        <label><input type="radio" name="pay" value="COD"> <i class="fas fa-money-bill-wave"></i> Cash on delivery</label>
+                    </div>
+                    <button class="btn btn-p" style="width:100%" type="submit">Place order · ${kwsMoney(s + sh)}</button>
+                    <p style="font-size:0.74rem;color:var(--sub);text-align:center;margin-top:10px">
+                        Demo checkout — no payment is taken and no data leaves this page.
+                    </p>
+                </form>`;
+            document.getElementById('coForm').addEventListener('submit', e => {
+                e.preventDefault();
+                const pay = e.target.querySelector('input[name=pay]:checked').value;
+                const id = 'LC' + Math.floor(100000 + Math.random() * 899999);
+                document.getElementById('coBody').innerHTML = `
+                    <div class="done">
+                        <div class="tick"><i class="fas fa-check"></i></div>
+                        <h3>Order confirmed</h3>
+                        <p class="sub">Order <b>${id}</b> · paid by ${pay}</p>
+                        <p style="color:var(--sub);font-size:0.9rem">We'll email a tracking link once it ships — usually within 48 hours.</p>
+                        <button class="btn btn-p" style="margin-top:20px" data-x>Continue shopping</button>
+                    </div>`;
+                cart = {}; save(); drawCart(); closeCart();
+            });
+        }
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            checkoutForm();
+            coModal.classList.add('on');
+        });
+
+        document.addEventListener('click', e => {
+            if (e.target.closest('[data-x]')) {
+                qvModal.classList.remove('on');
+                coModal.classList.remove('on');
+            }
+        });
+        [qvModal, coModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('on'); }));
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'Escape') return;
+            qvModal.classList.remove('on'); coModal.classList.remove('on'); closeCart();
+        });
+
+        drawProducts();
+        drawCart();
+    </script>
+</body>
+
+</html>

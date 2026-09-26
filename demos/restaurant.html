@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffron &amp; Sage — Luxury Restaurant Website Demo</title>
+    <meta name="description" content="Demo restaurant website by Kalyug Web Services.">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/demo-frame.css">
+    <style>
+        :root {
+            --night: #10100E;
+            --night-2: #1A1916;
+            --cream: #F4EFE6;
+            --gold: #C9A227;
+            --gold-soft: rgba(201, 162, 39, 0.25);
+            --muted: #9A948A;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Jost', sans-serif; background: var(--night); color: var(--cream); line-height: 1.7; font-weight: 300; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; font-weight: 500; line-height: 1.2; }
+        .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+        .rule { display: flex; align-items: center; justify-content: center; gap: 14px; color: var(--gold); font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+        .rule::before, .rule::after { content: ''; height: 1px; width: 42px; background: var(--gold-soft); }
+        .btn { display: inline-flex; align-items: center; gap: 9px; padding: 13px 32px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.78rem; letter-spacing: 2.2px; text-transform: uppercase; cursor: pointer; background: transparent; transition: 0.3s; font-family: inherit; }
+        .btn:hover { background: var(--gold); color: var(--night); }
+        .btn-fill { background: var(--gold); color: var(--night); }
+        .btn-fill:hover { background: transparent; color: var(--gold); }
+
+        header { position: sticky; top: 0; z-index: 60; background: rgba(16,16,14,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(201,162,39,0.16); }
+        header .wrap { display: flex; align-items: center; justify-content: space-between; height: 78px; }
+        .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; letter-spacing: 1px; }
+        .brand span { color: var(--gold); }
+        nav.links { display: flex; gap: 32px; font-size: 0.78rem; letter-spacing: 1.8px; text-transform: uppercase; }
+        nav.links a { color: var(--muted); transition: 0.25s; }
+        nav.links a:hover { color: var(--gold); }
+        .burger { display: none; background: none; border: 0; color: var(--cream); font-size: 1.25rem; cursor: pointer; }
+
+        .hero { min-height: 78vh; display: grid; place-items: center; text-align: center; position: relative; padding: 80px 0; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 20%, rgba(201,162,39,0.16), transparent 55%),
+                        repeating-linear-gradient(120deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 9px); }
+        .hero-inner { position: relative; z-index: 2; }
+        .hero h1 { font-size: 4.6rem; margin: 10px 0 16px; }
+        .hero p { color: var(--muted); max-width: 520px; margin: 0 auto 34px; }
+        .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        section { padding: 88px 0; }
+        .sec-head { text-align: center; margin-bottom: 52px; }
+        .sec-head h2 { font-size: 2.8rem; }
+        .sec-head p { color: var(--muted); max-width: 540px; margin: 10px auto 0; }
+
+        /* Menu */
+        .filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 44px; }
+        .filters button { background: none; border: 1px solid rgba(201,162,39,0.25); color: var(--muted); padding: 8px 22px; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.25s; font-family: inherit; }
+        .filters button.on, .filters button:hover { border-color: var(--gold); color: var(--gold); }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 56px; }
+        .dish { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px dashed rgba(201,162,39,0.18); align-items: baseline; }
+        .dish h3 { font-size: 1.35rem; }
+        .dish .flex { flex: 1; }
+        .dish p { font-size: 0.85rem; color: var(--muted); }
+        .dish .price { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; white-space: nowrap; }
+        .tagv { font-size: 0.6rem; letter-spacing: 1.5px; border: 1px solid var(--gold-soft); color: var(--gold); padding: 1px 7px; margin-left: 8px; vertical-align: middle; }
+
+        /* Gallery */
+        .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .shot { aspect-ratio: 3/4; border: 1px solid rgba(201,162,39,0.2); display: grid; place-items: center; text-align: center; padding: 16px; font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); transition: 0.35s; }
+        .shot:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-6px); }
+        .shot i { font-size: 1.7rem; display: block; margin-bottom: 10px; color: var(--gold); opacity: 0.7; }
+
+        /* Reserve */
+        .reserve { background: var(--night-2); }
+        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+        form { display: grid; gap: 16px; }
+        .r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        label { display: block; font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+        input, select { width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(201,162,39,0.3); color: var(--cream); padding: 10px 2px; font: inherit; font-size: 0.95rem; }
+        input:focus, select:focus { outline: none; border-bottom-color: var(--gold); }
+        select option { background: var(--night-2); color: var(--cream); }
+        input[type=date], input[type=time] { color-scheme: dark; }
+        .slots { display: flex; flex-wrap: wrap; gap: 8px; }
+        .slot { border: 1px solid rgba(201,162,39,0.3); color: var(--muted); background: none; padding: 8px 16px; font-size: 0.8rem; cursor: pointer; transition: 0.22s; font-family: inherit; }
+        .slot.on { background: var(--gold); color: var(--night); border-color: var(--gold); }
+        .slot.gone { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
+        .slot:not(.gone):hover { border-color: var(--gold); color: var(--gold); }
+        .hours li { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid rgba(201,162,39,0.14); font-size: 0.9rem; }
+        .hours li span:last-child { color: var(--gold); }
+
+        footer { padding: 56px 0 28px; border-top: 1px solid rgba(201,162,39,0.16); text-align: center; }
+        .socials { display: flex; justify-content: center; gap: 22px; margin: 20px 0 26px; font-size: 1.05rem; color: var(--muted); }
+        .socials a:hover { color: var(--gold); }
+        .fine { font-size: 0.76rem; color: var(--muted); letter-spacing: 1px; }
+
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 3rem; }
+            .menu-grid, .res-grid { grid-template-columns: 1fr; }
+            .gallery { grid-template-columns: 1fr 1fr; }
+            nav.links { display: none; position: absolute; top: 78px; left: 0; right: 0; background: var(--night-2); flex-direction: column; padding: 22px 24px; gap: 16px; }
+            nav.links.open { display: flex; }
+            .burger { display: block; }
+        }
+        @media (max-width: 520px) { .r2 { grid-template-columns: 1fr; } .hero h1 { font-size: 2.3rem; } }
+    </style>
+</head>
+
+<body data-demo-id="restaurant" data-demo-name="Luxury Restaurant Website" data-demo-price-inr="9999" data-demo-price-usd="399">
+
+    <header>
+        <div class="wrap">
+            <a href="#top" class="brand">Saffron <span>&amp;</span> Sage</a>
+            <nav class="links" id="links">
+                <a href="#menu">Menu</a><a href="#gallery">Gallery</a><a href="#reserve">Reservations</a><a href="#visit">Visit</a>
+            </nav>
+            <a href="#reserve" class="btn" style="padding:10px 22px">Reserve</a>
+            <button class="burger" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="hero-inner wrap">
+            <div class="rule">Est. 1998 · Bandra West</div>
+            <h1>Saffron &amp; Sage</h1>
+            <p>Coastal Indian cooking with a French hand. Twelve tables, one seating a night, and a kitchen that changes the menu when the market does.</p>
+            <div class="hero-actions">
+                <a href="#reserve" class="btn btn-fill">Reserve a table</a>
+                <a href="#menu" class="btn">View the menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="wrap">
+            <div class="sec-head">
+                <div class="rule">Kitchen</div>
+                <h2>This week's menu</h2>
+                <p>Written every Monday. If it isn't good at the market, it isn't on the list.</p>
+            </div>
+            <div class="filters" id="filters"></div>
+            <div class="menu-grid" id="menuGrid"></div>
+        </div>
+    </section>
+
+    <section id="gallery" style="background:var(--night-2)">
+        <div class="wrap">
+            <div class="sec-head">
+                <div class="rule">The room</div>
+                <h2>Twelve tables, one seating</h2>
+            </div>
+            <div class="gallery">
+                <div class="shot"><i class="fas fa-utensils"></i>The pass</div>
+                <div class="shot"><i class="fas fa-wine-glass"></i>Cellar &amp; bar</div>
+                <div class="shot"><i class="fas fa-fire-burner"></i>Open kitchen</div>
+                <div class="shot"><i class="fas fa-leaf"></i>Courtyard</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reserve" id="reserve">
+        <div class="wrap">
+            <div class="sec-head">
+                <div class="rule">Reservations</div>
+                <h2>Book your table</h2>
+                <p>We hold two tables for walk-ins each night. Everything else is by reservation.</p>
+            </div>
+            <div class="res-grid">
+                <form id="resForm" novalidate>
+                    <div class="r2">
+                        <div><label for="rn">Name</label><input id="rn" required placeholder="Full name"></div>
+                        <div><label for="rp">Phone</label><input id="rp" type="tel" required placeholder="+91"></div>
+                    </div>
+                    <div class="r2">
+                        <div><label for="rd">Date</label><input id="rd" type="date" required></div>
+                        <div>
+                            <label for="rg">Guests</label>
+                            <select id="rg">
+                                <option>2 guests</option><option>3 guests</option><option>4 guests</option>
+                                <option>5 guests</option><option>6 guests</option><option>7+ (call us)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Time — pick a slot</label>
+                        <div class="slots" id="slots"></div>
+                    </div>
+                    <div><label for="rr">Anything we should know?</label><input id="rr" placeholder="Allergies, occasion, seating preference"></div>
+                    <button class="btn btn-fill" type="submit" style="justify-content:center;margin-top:8px">Confirm reservation</button>
+                </form>
+                <div id="visit">
+                    <div class="rule" style="justify-content:flex-start">Opening hours</div>
+                    <ul class="hours">
+                        <li><span>Tuesday – Thursday</span><span>19:00 – 23:00</span></li>
+                        <li><span>Friday – Saturday</span><span>18:30 – 23:30</span></li>
+                        <li><span>Sunday</span><span>12:30 – 16:00 · 19:00 – 22:30</span></li>
+                        <li><span>Monday</span><span>Closed</span></li>
+                    </ul>
+                    <div class="rule" style="justify-content:flex-start;margin-top:36px">Find us</div>
+                    <p style="color:var(--muted);font-size:0.92rem">14 Chapel Road, Bandra West<br>Mumbai 400050</p>
+                    <p style="color:var(--muted);font-size:0.92rem;margin-top:12px">
+                        <i class="fas fa-phone" style="color:var(--gold);width:20px"></i> +91 22 2640 8800<br>
+                        <i class="fas fa-envelope" style="color:var(--gold);width:20px"></i> table@saffronandsage.example
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="brand" style="font-size:1.4rem">Saffron <span>&amp;</span> Sage</div>
+            <div class="socials">
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Tripadvisor"><i class="fab fa-tripadvisor"></i></a>
+            </div>
+            <p class="fine">© 2026 Saffron &amp; Sage · A design demo by Kalyug Web Services</p>
+        </div>
+    </footer>
+
+    <script src="assets/demo-frame.js"></script>
+    <script>
+        /* ---------- Menu ---------- */
+        const dishes = [
+            { c: 'Small plates', n: 'Malvani prawn toast', d: 'Brioche, kokum butter, curry leaf', p: 640, v: '' },
+            { c: 'Small plates', n: 'Charred beetroot', d: 'Goat cheese, jaggery vinegar, walnut', p: 480, v: 'V' },
+            { c: 'Small plates', n: 'Bombay duck escabeche', d: 'Pickled shallot, chilli oil', p: 560, v: '' },
+            { c: 'Mains', n: 'Alleppey fish curry', d: 'Line-caught seer, raw mango, coconut', p: 1240, v: '' },
+            { c: 'Mains', n: 'Duck moilee', d: 'Confit leg, tender coconut, appam', p: 1380, v: '' },
+            { c: 'Mains', n: 'Kokum-glazed aubergine', d: 'Sesame, curd rice, curry leaf oil', p: 890, v: 'V' },
+            { c: 'Mains', n: 'Slow lamb ularthiyathu', d: '9-hour shoulder, coconut slivers, malabar paratha', p: 1460, v: '' },
+            { c: 'Desserts', n: 'Jaggery custard tart', d: 'Burnt cream, toasted coconut', p: 460, v: 'V' },
+            { c: 'Desserts', n: 'Alphonso soufflé', d: 'Seasonal, please allow 20 minutes', p: 520, v: 'V' },
+            { c: 'Wine & bar', n: 'Sula Rasa Shiraz', d: 'Nashik · glass / bottle', p: 550, v: '' },
+            { c: 'Wine & bar', n: 'Kokum negroni', d: 'Gin, kokum, sweet vermouth', p: 690, v: '' },
+            { c: 'Wine & bar', n: 'Toddy spritz', d: 'Non-alcoholic, coconut &amp; lime', p: 390, v: 'NA' }
+        ];
+        const cats = ['All', ...new Set(dishes.map(d => d.c))];
+        const filters = document.getElementById('filters');
+        const grid = document.getElementById('menuGrid');
+
+        filters.innerHTML = cats.map((c, i) => `<button class="${i ? '' : 'on'}" data-c="${c}">${c}</button>`).join('');
+
+        function drawMenu(cat) {
+            const list = cat === 'All' ? dishes : dishes.filter(d => d.c === cat);
+            grid.innerHTML = list.map(d => `
+                <div class="dish">
+                    <div class="flex">
+                        <h3>${d.n}${d.v ? `<span class="tagv">${d.v}</span>` : ''}</h3>
+                        <p>${d.d}</p>
+                    </div>
+                    <div class="price">${kwsMoney(d.p)}</div>
+                </div>`).join('');
+        }
+        filters.addEventListener('click', e => {
+            const b = e.target.closest('button');
+            if (!b) return;
+            filters.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+            b.classList.add('on');
+            drawMenu(b.dataset.c);
+        });
+        drawMenu('All');
+
+        /* ---------- Reservation ---------- */
+        const dateInput = document.getElementById('rd');
+        // Local date, not UTC — toISOString() shifts the day for anyone east of Greenwich.
+        const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const tomorrow = () => { const d = new Date(); d.setDate(d.getDate() + 1); return d; };
+        dateInput.min = iso(new Date());
+        dateInput.value = iso(tomorrow());
+
+        const allSlots = ['18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30'];
+        let chosen = null;
+        const slotsBox = document.getElementById('slots');
+
+        function drawSlots() {
+            const day = new Date(dateInput.value + 'T12:00:00').getDay(); // 0 = Sunday
+            chosen = null;
+            slotsBox.innerHTML = allSlots.map(t => {
+                // Monday closed; Tue–Thu the room opens at 19:00.
+                const closed = day === 1 || ((day >= 2 && day <= 4) && t === '18:30');
+                return `<button type="button" class="slot ${closed ? 'gone' : ''}" data-t="${t}" ${closed ? 'disabled' : ''}>${t}</button>`;
+            }).join('');
+            if (day === 1) slotsBox.insertAdjacentHTML('beforeend',
+                '<p style="color:var(--muted);font-size:0.82rem;width:100%">We are closed on Mondays — please choose another date.</p>');
+        }
+        slotsBox.addEventListener('click', e => {
+            const s = e.target.closest('.slot');
+            if (!s || s.classList.contains('gone')) return;
+            slotsBox.querySelectorAll('.slot').forEach(x => x.classList.remove('on'));
+            s.classList.add('on');
+            chosen = s.dataset.t;
+        });
+        dateInput.addEventListener('change', drawSlots);
+        drawSlots();
+
+        document.getElementById('resForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.getElementById('rn').value.trim();
+            const phone = document.getElementById('rp').value.trim();
+            if (!name || !phone) return kwsToast('Please add your name and phone number.');
+            if (!chosen) return kwsToast('Choose a time slot to continue.');
+            const guests = document.getElementById('rg').value;
+            const nice = new Date(dateInput.value + 'T12:00:00')
+                .toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+            kwsToast(`Table held for ${name} — ${guests}, ${nice} at ${chosen}.`);
+            e.target.reset();
+            dateInput.value = iso(tomorrow());
+            drawSlots();
+        });
+
+        /* ---------- Nav ---------- */
+        document.getElementById('burger').addEventListener('click', () =>
+            document.getElementById('links').classList.toggle('open'));
+        document.getElementById('links').addEventListener('click', e => {
+            if (e.target.tagName === 'A') e.currentTarget.classList.remove('open');
+        });
+    </script>
+</body>
+
+</html>
