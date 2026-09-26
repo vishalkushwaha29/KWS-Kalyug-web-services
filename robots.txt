@@ -4,4 +4,4 @@ Allow: /
 # Demo pages are showcases, not content we want ranking against the main site.
 Disallow: /demos/
 
-Sitemap: https://kalyugwebservices.com/sitemap.xml
+Sitemap: https://kalyugwebs.dpdns.org/sitemap.xml
