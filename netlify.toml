@@ -36,3 +36,13 @@
   from = "/demos/:slug"
   to = "/demos/:slug.html"
   status = 200
+
+# Redirect everything else from the old Netlify URL to the new domain.
+# This must stay LAST — Netlify matches redirects top to bottom and
+# stops at the first match, so a catch-all placed earlier would
+# swallow every request before more specific rules ever run.
+[[redirects]]
+  from = "/*"
+  to = "https://kalyugwebs.dpdns.org/:splat"
+  status = 301
+  force = true
